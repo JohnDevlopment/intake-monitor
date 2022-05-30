@@ -1,0 +1,204 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/textures/delete_icon.png" type="Texture" id=1]
+[ext_resource path="res://assets/textures/close.png" type="Texture" id=2]
+[ext_resource path="res://assets/themes/previews/Theme_Inputs.gd" type="Script" id=3]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 16, 0, 16, 16 )
+
+[node name="Theme_Inputs" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 505.0
+margin_bottom = 593.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 12
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+margin_right = 498.0
+margin_bottom = 74.0
+columns = 4
+
+[node name="Button" type="Button" parent="VBoxContainer/GridContainer"]
+margin_right = 97.0
+margin_bottom = 28.0
+text = "Button"
+
+[node name="Button2" type="Button" parent="VBoxContainer/GridContainer"]
+margin_left = 101.0
+margin_right = 265.0
+margin_bottom = 28.0
+text = "Flat Button"
+flat = true
+
+[node name="Button3" type="Button" parent="VBoxContainer/GridContainer"]
+margin_left = 269.0
+margin_right = 399.0
+margin_bottom = 28.0
+toggle_mode = true
+text = "Toggle Button"
+
+[node name="ToolButton" type="ToolButton" parent="VBoxContainer/GridContainer"]
+margin_left = 403.0
+margin_right = 492.0
+margin_bottom = 28.0
+text = "Tool Button"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/GridContainer"]
+margin_top = 32.0
+margin_right = 97.0
+margin_bottom = 74.0
+text = "Check Box"
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/GridContainer"]
+margin_left = 101.0
+margin_top = 32.0
+margin_right = 265.0
+margin_bottom = 74.0
+text = "Check Button"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/GridContainer"]
+margin_left = 269.0
+margin_top = 32.0
+margin_right = 399.0
+margin_bottom = 74.0
+text = "A regular option"
+items = [ "A regular option", null, false, 0, null, "An option with an icon", ExtResource( 1 ), false, 1, null, "A disabled option", null, true, 2, null, "A disabled option with an icon", ExtResource( 1 ), true, 3, null ]
+selected = 0
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBoxContainer/GridContainer"]
+margin_left = 403.0
+margin_top = 32.0
+margin_right = 492.0
+margin_bottom = 74.0
+text = "Color Picker"
+
+[node name="MenuButtons" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 86.0
+margin_right = 498.0
+margin_bottom = 114.0
+
+[node name="MenuButton" type="MenuButton" parent="VBoxContainer/MenuButtons"]
+margin_right = 247.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+text = "Menu Button"
+items = [ "Item 0", null, 0, false, false, 0, 0, null, "", false, "Item 1", null, 0, false, true, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", true, "Item 3", ExtResource( 1 ), 0, false, false, 3, 0, null, "", false, "Item 4", null, 1, false, false, 4, 0, null, "", false, "Item 5", null, 2, true, false, 5, 0, null, "", false, "Item 6", null, 2, false, false, 6, 0, null, "", false, "Item 7", null, 1, false, true, 7, 0, null, "", false ]
+
+[node name="MenuButton2" type="MenuButton" parent="VBoxContainer/MenuButtons"]
+margin_left = 251.0
+margin_right = 498.0
+margin_bottom = 28.0
+focus_mode = 2
+size_flags_horizontal = 3
+text = "Menu Button"
+flat = false
+items = [ "Item 0", null, 0, false, false, 0, 0, null, "", false, "Item 1", null, 0, false, true, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", true, "Item 3", ExtResource( 1 ), 0, false, false, 3, 0, null, "", false, "Item 4", null, 1, false, false, 4, 0, null, "", false, "Item 5", null, 2, true, false, 5, 0, null, "", false, "Item 6", null, 2, false, false, 6, 0, null, "", false, "Item 7", null, 1, false, true, 7, 0, null, "", false ]
+
+[node name="SpecialButtons" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 126.0
+margin_right = 498.0
+margin_bottom = 154.0
+
+[node name="LinkButton" type="LinkButton" parent="VBoxContainer/SpecialButtons"]
+margin_right = 163.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+text = "Link Button"
+
+[node name="TextureButton" type="TextureButton" parent="VBoxContainer/SpecialButtons"]
+margin_left = 167.0
+margin_right = 331.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+texture_normal = SubResource( 1 )
+texture_pressed = SubResource( 2 )
+
+[node name="DisplayDlg" type="ToolButton" parent="VBoxContainer/SpecialButtons"]
+margin_left = 335.0
+margin_right = 498.0
+margin_bottom = 28.0
+text = "Display Dialog Window"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
+margin_top = 166.0
+margin_right = 498.0
+margin_bottom = 196.0
+text = "Line Edit"
+virtual_keyboard_enabled = false
+clear_button_enabled = true
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+placeholder_text = "Placeholder"
+
+[node name="LineEdit2" type="LineEdit" parent="VBoxContainer"]
+margin_top = 208.0
+margin_right = 498.0
+margin_bottom = 238.0
+text = "Line Edit (disabled)"
+editable = false
+virtual_keyboard_enabled = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
+margin_top = 250.0
+margin_right = 498.0
+margin_bottom = 412.0
+size_flags_vertical = 3
+text = "Text Edit
+	A line with a leading tab
+    A line with leading spaces"
+draw_tabs = true
+draw_spaces = true
+shortcut_keys_enabled = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+
+[node name="TextEdit2" type="TextEdit" parent="VBoxContainer"]
+margin_top = 424.0
+margin_right = 498.0
+margin_bottom = 586.0
+size_flags_vertical = 3
+text = "Text Edit"
+readonly = true
+shortcut_keys_enabled = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 505.0
+margin_bottom = 593.0
+resizable = true
+
+[node name="WindowDialog" type="WindowDialog" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 505.0
+margin_bottom = 593.0
+window_title = "Window Dialog"
+resizable = true
+
+[connection signal="pressed" from="VBoxContainer/GridContainer/Button" to="." method="_display_popup" binds= [ "You clicked the button!" ]]
+[connection signal="pressed" from="VBoxContainer/GridContainer/Button2" to="." method="_display_popup" binds= [ "You clicked a flat button!" ]]
+[connection signal="toggled" from="VBoxContainer/GridContainer/Button3" to="." method="_display_popup2" binds= [ "You {0} a flat button!" ]]
+[connection signal="pressed" from="VBoxContainer/GridContainer/ToolButton" to="." method="_display_popup" binds= [ "You pressed the tool button!" ]]
+[connection signal="toggled" from="VBoxContainer/GridContainer/CheckBox" to="." method="_display_popup2" binds= [ "You {0} the checkbox!" ]]
+[connection signal="toggled" from="VBoxContainer/GridContainer/CheckButton" to="." method="_display_popup2" binds= [ "You {0} the checkbutton" ]]
+[connection signal="pressed" from="VBoxContainer/SpecialButtons/DisplayDlg" to="." method="_on_DisplayDlg_pressed"]

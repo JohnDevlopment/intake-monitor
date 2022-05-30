@@ -1,0 +1,72 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/AddEntries.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/IntakeMonitor.gd" type="Script" id=2]
+
+[node name="IntakeMonitor" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 25
+custom_constants/margin_top = 10
+custom_constants/margin_left = 25
+custom_constants/margin_bottom = 10
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+margin_left = 25.0
+margin_top = 10.0
+margin_right = 487.0
+margin_bottom = 590.0
+ratio = 0.85
+
+[node name="VSplitContainer" type="VSplitContainer" parent="AspectRatioContainer"]
+margin_left = -1.52588e-05
+margin_top = 18.2353
+margin_right = 462.0
+margin_bottom = 561.765
+
+[node name="Entries" type="Tree" parent="AspectRatioContainer/VSplitContainer"]
+unique_name_in_owner = true
+margin_right = 462.0
+margin_bottom = 275.0
+rect_min_size = Vector2( 0, 275 )
+columns = 2
+column_titles_visible = true
+hide_root = true
+select_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/VSplitContainer"]
+margin_top = 287.0
+margin_right = 462.0
+margin_bottom = 543.529
+
+[node name="SumLabel" type="Label" parent="AspectRatioContainer/VSplitContainer/VBoxContainer"]
+margin_right = 462.0
+margin_bottom = 18.0
+text = "Sum Default Intake: 0 / 9000"
+align = 1
+
+[node name="AddEntries" parent="AspectRatioContainer/VSplitContainer/VBoxContainer" instance=ExtResource( 1 )]
+anchor_right = 0.0
+margin_top = 22.0
+margin_right = 462.0
+margin_bottom = 174.0
+
+[node name="ConfirmClose" type="ConfirmationDialog" parent="."]
+margin_left = 25.0
+margin_top = 10.0
+margin_right = 487.0
+margin_bottom = 590.0
+resizable = true
+dialog_text = "Close this intake? All entries in this tab will be deleted."
+
+[node name="Delay" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[connection signal="button_pressed" from="AspectRatioContainer/VSplitContainer/Entries" to="." method="_on_Entries_button_pressed"]
+[connection signal="entry_added" from="AspectRatioContainer/VSplitContainer/VBoxContainer/AddEntries" to="." method="_on_entry_added"]
+[connection signal="confirmed" from="ConfirmClose" to="." method="_on_ConfirmationDialog_confirmed"]

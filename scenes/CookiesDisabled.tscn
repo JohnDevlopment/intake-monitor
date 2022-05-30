@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/ErrorDialog.tscn" type="PackedScene" id=1]
+
+[node name="CookiesDisabled" instance=ExtResource( 1 )]
+dialog_text = "This application uses cookies to save your data. Please enable them."

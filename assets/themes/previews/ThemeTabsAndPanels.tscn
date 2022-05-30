@@ -1,0 +1,93 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/themes/previews/ThemeTabsAndPanels.gd" type="Script" id=1]
+
+[node name="Theme_TabsAndPanels" type="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Tab 1" type="ScrollContainer" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="GridContainer" type="GridContainer" parent="Tab 1"]
+margin_right = 504.0
+margin_bottom = 564.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="Label" type="Label" parent="Tab 1/GridContainer"]
+margin_top = 5.0
+margin_right = 250.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "Name"
+
+[node name="LineEdit" type="LineEdit" parent="Tab 1/GridContainer"]
+margin_left = 254.0
+margin_right = 504.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="Tab 1/GridContainer"]
+margin_top = 33.0
+margin_right = 250.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+text = "Age"
+
+[node name="LineEdit2" type="LineEdit" parent="Tab 1/GridContainer"]
+margin_left = 254.0
+margin_top = 28.0
+margin_right = 504.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
+
+[node name="Tab 2" type="VBoxContainer" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="SpinBox" type="SpinBox" parent="Tab 2"]
+margin_right = 504.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="Tab 2"]
+margin_top = 28.0
+margin_right = 504.0
+margin_bottom = 42.0
+text = "Some Label"
+
+[node name="Tab 3" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 6.0
+margin_top = 24.0
+margin_right = -6.0
+margin_bottom = -4.0
+
+[node name="Tree" type="Tree" parent="Tab 3"]
+margin_right = 500.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 300, 400 )
+columns = 2
+column_titles_visible = true
+
+[node name="LineEdit" type="LineEdit" parent="Tab 3"]
+margin_top = 404.0
+margin_right = 500.0
+margin_bottom = 434.0

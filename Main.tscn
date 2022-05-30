@@ -1,0 +1,167 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/ErrorLabel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Main.gd" type="Script" id=3]
+[ext_resource path="res://NewIntakeDialog.gd" type="Script" id=4]
+[ext_resource path="res://assets/textures/close.png" type="Texture" id=5]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 16, 0, 16, 16 )
+
+[node name="Main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 505.0
+margin_bottom = 593.0
+
+[node name="Menubar" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+margin_right = 498.0
+margin_bottom = 28.0
+
+[node name="FileMenu" type="MenuButton" parent="PanelContainer/VBoxContainer/Menubar"]
+margin_right = 33.0
+margin_bottom = 28.0
+text = "File"
+items = [ "New Intake", null, 0, false, false, 0, 0, null, "", false, "Close Intake", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Quit", null, 0, false, false, 3, 0, null, "", false ]
+
+[node name="CloseButton" type="TextureButton" parent="PanelContainer/VBoxContainer/Menubar"]
+margin_left = 482.0
+margin_right = 498.0
+margin_bottom = 28.0
+size_flags_horizontal = 10
+texture_normal = SubResource( 1 )
+texture_pressed = SubResource( 2 )
+
+[node name="Intakes" type="TabContainer" parent="PanelContainer/VBoxContainer"]
+margin_top = 32.0
+margin_right = 498.0
+margin_bottom = 586.0
+size_flags_vertical = 3
+
+[node name="NewIntakeDialog" type="WindowDialog" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 53.0
+margin_top = 148.0
+margin_right = -51.0
+margin_bottom = -124.0
+popup_exclusive = true
+window_title = "New Intake Monitor"
+resizable = true
+script = ExtResource( 4 )
+
+[node name="MarginContainer" type="MarginContainer" parent="NewIntakeDialog"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -122.5
+margin_right = 122.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NewIntakeDialog/MarginContainer"]
+margin_right = 244.0
+margin_bottom = 328.0
+
+[node name="Form" type="GridContainer" parent="NewIntakeDialog/MarginContainer/VBoxContainer"]
+margin_right = 244.0
+margin_bottom = 116.0
+rect_pivot_offset = Vector2( -511.5, -34 )
+columns = 2
+
+[node name="Label" type="Label" parent="NewIntakeDialog/MarginContainer/VBoxContainer/Form"]
+margin_top = 5.0
+margin_right = 120.0
+margin_bottom = 23.0
+size_flags_horizontal = 7
+text = "Name"
+
+[node name="IntakeName" type="LineEdit" parent="NewIntakeDialog/MarginContainer/VBoxContainer/Form"]
+margin_left = 124.0
+margin_right = 244.0
+margin_bottom = 28.0
+size_flags_horizontal = 7
+
+[node name="Label2" type="Label" parent="NewIntakeDialog/MarginContainer/VBoxContainer/Form"]
+margin_top = 37.0
+margin_right = 120.0
+margin_bottom = 55.0
+size_flags_horizontal = 7
+text = "Maximum Intake"
+
+[node name="IntakeAmount" type="SpinBox" parent="NewIntakeDialog/MarginContainer/VBoxContainer/Form"]
+margin_left = 124.0
+margin_top = 32.0
+margin_right = 244.0
+margin_bottom = 60.0
+size_flags_horizontal = 7
+max_value = 1e+06
+value = 100.0
+rounded = true
+suffix = "mg"
+
+[node name="Label3" type="Label" parent="NewIntakeDialog/MarginContainer/VBoxContainer/Form"]
+margin_top = 67.0
+margin_right = 120.0
+margin_bottom = 85.0
+size_flags_horizontal = 7
+text = "Unit"
+
+[node name="IntakeUnit" type="OptionButton" parent="NewIntakeDialog/MarginContainer/VBoxContainer/Form"]
+margin_left = 124.0
+margin_top = 64.0
+margin_right = 244.0
+margin_bottom = 88.0
+size_flags_horizontal = 7
+text = "mg"
+items = [ "g", null, false, 0, null, "mg", null, false, 1, null ]
+selected = 1
+
+[node name="Create" type="Button" parent="NewIntakeDialog/MarginContainer/VBoxContainer/Form"]
+margin_top = 92.0
+margin_right = 120.0
+margin_bottom = 116.0
+size_flags_horizontal = 7
+text = "Create"
+
+[node name="Cancel" type="Button" parent="NewIntakeDialog/MarginContainer/VBoxContainer/Form"]
+margin_left = 124.0
+margin_top = 92.0
+margin_right = 244.0
+margin_bottom = 116.0
+size_flags_horizontal = 7
+text = "Cancel"
+
+[node name="ErrorLabel" parent="NewIntakeDialog/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 120.0
+margin_right = 244.0
+margin_bottom = 138.0
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Menubar/CloseButton" to="." method="_on_CloseButton_pressed"]
+[connection signal="new_intake" from="NewIntakeDialog" to="." method="_on_NewIntakeDialog_new_intake"]
+[connection signal="item_selected" from="NewIntakeDialog/MarginContainer/VBoxContainer/Form/IntakeUnit" to="NewIntakeDialog" method="_on_IntakeUnit_item_selected"]
+[connection signal="pressed" from="NewIntakeDialog/MarginContainer/VBoxContainer/Form/Create" to="NewIntakeDialog" method="_on_Create_pressed"]
+[connection signal="pressed" from="NewIntakeDialog/MarginContainer/VBoxContainer/Form/Cancel" to="NewIntakeDialog" method="_on_Cancel_pressed"]
