@@ -58,14 +58,6 @@ func load_save():
 		intake.connect('request_save', self, '_on_intake_request_save', [], CONNECT_DEFERRED)
 		intake.connect('closing', self, '_on_intake_closing', [], CONNECT_DEFERRED)
 
-func new_intake(resname: String, cap: String, unit: String) -> Node:
-	var intake = IntakeMonitor.instance()
-	intake.intake_name = resname
-	intake.desired_max = int(cap)
-	intake.unit = unit
-	$PanelContainer/VBoxContainer/Intakes.add_child(intake)
-	return intake
-
 func save():
 	var intakes := []
 	
@@ -97,8 +89,12 @@ func _on_file_menu_id_clicked(id: int) -> void:
 		FileMenu.QUIT:
 			call_deferred('exit')
 
-func _on_NewIntakeDialog_new_intake(_name: String, amount: String, unit: String) -> void:
-	var intake = new_intake(_name, amount, unit)
+func _on_NewIntakeDialog_new_intake(resname: String, cap: String, unit: String) -> void:
+	var intake = IntakeMonitor.instance()
+	intake.intake_name = resname
+	intake.desired_max = int(cap)
+	intake.unit = unit
+	$PanelContainer/VBoxContainer/Intakes.add_child(intake)
 	intake.connect('request_save', self, '_on_intake_request_save', [], CONNECT_DEFERRED)
 	intake.connect('closing', self, '_on_intake_closing', [], CONNECT_DEFERRED)
 	_update_menu()

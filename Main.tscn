@@ -35,6 +35,9 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 505.0
 margin_bottom = 593.0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Menubar" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 margin_right = 498.0
