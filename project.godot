@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "EditorVCSInterface",
+"class": "GitAPI",
+"language": "NativeScript",
+"path": "res://addons/godot-git-plugin/git_api.gdns"
+} ]
+_global_script_class_icons={
+"GitAPI": ""
+}
+
 [application]
 
 config/name="Intake Monitor"
@@ -36,11 +46,17 @@ window/handheld/orientation="portrait"
 
 [editor]
 
+version_control/autoload_on_startup=true
+version_control/plugin_name="GitAPI"
 scene/scene_naming=1
 
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/node_mapper/plugin.cfg" )
+
+[gdnative]
+
+singletons=[  ]
 
 [gui]
 
