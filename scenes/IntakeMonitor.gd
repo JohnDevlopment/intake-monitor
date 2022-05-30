@@ -35,6 +35,8 @@ func _ready() -> void:
 	
 	_should_recalculate = true
 	call_deferred('_update_amount')
+	
+	set_meta('is_intake', true)
 
 func close() -> void:
 	$ConfirmClose.popup_centered(Vector2(380, 230))

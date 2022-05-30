@@ -70,7 +70,8 @@ func save():
 	var intakes := []
 	
 	for intake in $PanelContainer/VBoxContainer/Intakes.get_children():
-		intakes.push_back(intake.serialize())
+		if intake.has_meta('is_intake'):
+			intakes.push_back(intake.serialize())
 	
 	var json_data := JSON.print(intakes, "\t")
 	var file := File.new()
