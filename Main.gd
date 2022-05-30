@@ -27,6 +27,12 @@ func exit() -> void:
 
 func load_save():
 	var file := File.new()
+	
+	# Create a file if it does not exist
+	if not file.file_exists(SAVE_FILE):
+		save()
+		return
+	
 	if file.open(SAVE_FILE, File.READ) != OK:
 		push_error("Failed to open '%s'" % SAVE_FILE)
 		return
