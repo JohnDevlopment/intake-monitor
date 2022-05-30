@@ -20,16 +20,16 @@ anchor_bottom = 1.0
 script = ExtResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 505.0
-margin_bottom = 593.0
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 506.0
+margin_bottom = 596.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 12
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
-margin_right = 498.0
+margin_right = 500.0
 margin_bottom = 74.0
 columns = 4
 
@@ -89,54 +89,54 @@ text = "Color Picker"
 
 [node name="MenuButtons" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 86.0
-margin_right = 498.0
+margin_right = 500.0
 margin_bottom = 114.0
 
 [node name="MenuButton" type="MenuButton" parent="VBoxContainer/MenuButtons"]
-margin_right = 247.0
+margin_right = 248.0
 margin_bottom = 28.0
 size_flags_horizontal = 3
 text = "Menu Button"
 items = [ "Item 0", null, 0, false, false, 0, 0, null, "", false, "Item 1", null, 0, false, true, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", true, "Item 3", ExtResource( 1 ), 0, false, false, 3, 0, null, "", false, "Item 4", null, 1, false, false, 4, 0, null, "", false, "Item 5", null, 2, true, false, 5, 0, null, "", false, "Item 6", null, 2, false, false, 6, 0, null, "", false, "Item 7", null, 1, false, true, 7, 0, null, "", false ]
 
 [node name="MenuButton2" type="MenuButton" parent="VBoxContainer/MenuButtons"]
-margin_left = 251.0
-margin_right = 498.0
+margin_left = 252.0
+margin_right = 500.0
 margin_bottom = 28.0
 focus_mode = 2
 size_flags_horizontal = 3
 text = "Menu Button"
 flat = false
-items = [ "Item 0", null, 0, false, false, 0, 0, null, "", false, "Item 1", null, 0, false, true, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", true, "Item 3", ExtResource( 1 ), 0, false, false, 3, 0, null, "", false, "Item 4", null, 1, false, false, 4, 0, null, "", false, "Item 5", null, 2, true, false, 5, 0, null, "", false, "Item 6", null, 2, false, false, 6, 0, null, "", false, "Item 7", null, 1, false, true, 7, 0, null, "", false ]
+items = [ "Item 0", null, 0, false, false, 0, 0, null, "", false, "Item 1", null, 0, false, true, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", true, "Item 3", ExtResource( 1 ), 0, false, false, 3, 0, null, "", false, "Item 4", null, 1, false, false, 4, 0, null, "", false, "Item 5", null, 2, true, false, 5, 0, null, "", false, "Item 6", null, 2, false, false, 6, 0, null, "", false, "Item 7", null, 1, false, true, 7, 0, null, "", false, "Item 8", null, 0, false, false, 8, 0, null, "", true, "Item 9", null, 0, false, true, 9, 0, null, "", false ]
 
 [node name="SpecialButtons" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 126.0
-margin_right = 498.0
+margin_right = 500.0
 margin_bottom = 154.0
 
 [node name="LinkButton" type="LinkButton" parent="VBoxContainer/SpecialButtons"]
-margin_right = 163.0
+margin_right = 164.0
 margin_bottom = 28.0
 size_flags_horizontal = 3
 text = "Link Button"
 
 [node name="TextureButton" type="TextureButton" parent="VBoxContainer/SpecialButtons"]
-margin_left = 167.0
-margin_right = 331.0
+margin_left = 168.0
+margin_right = 333.0
 margin_bottom = 28.0
 size_flags_horizontal = 3
 texture_normal = SubResource( 1 )
 texture_pressed = SubResource( 2 )
 
 [node name="DisplayDlg" type="ToolButton" parent="VBoxContainer/SpecialButtons"]
-margin_left = 335.0
-margin_right = 498.0
+margin_left = 337.0
+margin_right = 500.0
 margin_bottom = 28.0
 text = "Display Dialog Window"
 
 [node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
 margin_top = 166.0
-margin_right = 498.0
+margin_right = 500.0
 margin_bottom = 196.0
 text = "Line Edit"
 virtual_keyboard_enabled = false
@@ -147,7 +147,7 @@ placeholder_text = "Placeholder"
 
 [node name="LineEdit2" type="LineEdit" parent="VBoxContainer"]
 margin_top = 208.0
-margin_right = 498.0
+margin_right = 500.0
 margin_bottom = 238.0
 text = "Line Edit (disabled)"
 editable = false
@@ -157,8 +157,8 @@ middle_mouse_paste_enabled = false
 
 [node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
 margin_top = 250.0
-margin_right = 498.0
-margin_bottom = 412.0
+margin_right = 500.0
+margin_bottom = 415.0
 size_flags_vertical = 3
 text = "Text Edit
 	A line with a leading tab
@@ -170,9 +170,9 @@ virtual_keyboard_enabled = false
 middle_mouse_paste_enabled = false
 
 [node name="TextEdit2" type="TextEdit" parent="VBoxContainer"]
-margin_top = 424.0
-margin_right = 498.0
-margin_bottom = 586.0
+margin_top = 427.0
+margin_right = 500.0
+margin_bottom = 592.0
 size_flags_vertical = 3
 text = "Text Edit"
 readonly = true
