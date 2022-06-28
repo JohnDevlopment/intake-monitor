@@ -31,6 +31,7 @@ mix_rate=22050
 [autoload]
 
 NodeMapper="*res://addons/node_mapper/NodeMapper.gd"
+Globals="*res://Globals.gd"
 
 [debug]
 
