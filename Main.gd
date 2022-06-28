@@ -55,7 +55,7 @@ func load_save():
 		var intake = IntakeMonitor.instance()
 		intake.deserialize(intake_data)
 		$PanelContainer/VBoxContainer/Intakes.add_child(intake)
-		intake.connect('request_save', self, '_on_intake_request_save', [], CONNECT_DEFERRED)
+		intake.connect('request_save', self, 'save', [], CONNECT_DEFERRED)
 		intake.connect('closing', self, '_on_intake_closing', [], CONNECT_DEFERRED)
 
 func save():
@@ -95,17 +95,13 @@ func _on_NewIntakeDialog_new_intake(resname: String, cap: String, unit: String) 
 	intake.desired_max = int(cap)
 	intake.unit = unit
 	$PanelContainer/VBoxContainer/Intakes.add_child(intake)
-	intake.connect('request_save', self, '_on_intake_request_save', [], CONNECT_DEFERRED)
+	intake.connect('request_save', self, 'save', [], CONNECT_DEFERRED)
 	intake.connect('closing', self, '_on_intake_closing', [], CONNECT_DEFERRED)
 	_update_menu()
 
 func _on_intake_closing() -> void:
-	print('closing')
 	save()
 	_update_menu()
-
-func _on_intake_request_save() -> void:
-	save()
 
 func _on_CloseButton_pressed() -> void:
 	call_deferred('exit')
