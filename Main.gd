@@ -15,6 +15,7 @@ func _ready() -> void:
 		(errdlg as ConfirmationDialog).popup_centered()
 	
 	load_save()
+	call_deferred('_update_menu')
 
 func _exit_tree() -> void:
 	exit()
@@ -75,7 +76,11 @@ func save():
 		print('saving file')
 
 func _update_menu():
-	pass
+	var file_menu = get_node('%FileMenu').get_popup()
+	var ctab : int = $'%Intakes'.current_tab
+	
+	assert(ctab >= 0)
+	file_menu.set_item_disabled(FileMenu.CLOSE_INTAKE, ctab == 0)
 
 # Signals
 
@@ -105,3 +110,6 @@ func _on_intake_closing() -> void:
 
 func _on_CloseButton_pressed() -> void:
 	call_deferred('exit')
+
+func _on_Intakes_tab_changed(_tab: int) -> void:
+	_update_menu()

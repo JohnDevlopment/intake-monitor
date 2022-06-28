@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
+[ext_resource path="res://scenes/Information.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/ErrorLabel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Main.gd" type="Script" id=3]
 [ext_resource path="res://NewIntakeDialog.gd" type="Script" id=4]
@@ -44,6 +45,7 @@ margin_right = 500.0
 margin_bottom = 28.0
 
 [node name="FileMenu" type="MenuButton" parent="PanelContainer/VBoxContainer/Menubar"]
+unique_name_in_owner = true
 margin_right = 33.0
 margin_bottom = 28.0
 text = "File"
@@ -58,10 +60,17 @@ texture_normal = SubResource( 1 )
 texture_pressed = SubResource( 2 )
 
 [node name="Intakes" type="TabContainer" parent="PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
 margin_top = 32.0
 margin_right = 500.0
 margin_bottom = 592.0
 size_flags_vertical = 3
+
+[node name="Information" parent="PanelContainer/VBoxContainer/Intakes" instance=ExtResource( 1 )]
+margin_left = 6.0
+margin_top = 24.0
+margin_right = -6.0
+margin_bottom = -4.0
 
 [node name="NewIntakeDialog" type="WindowDialog" parent="."]
 anchor_right = 1.0
@@ -164,6 +173,7 @@ margin_right = 244.0
 margin_bottom = 138.0
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Menubar/CloseButton" to="." method="_on_CloseButton_pressed"]
+[connection signal="tab_changed" from="PanelContainer/VBoxContainer/Intakes" to="." method="_on_Intakes_tab_changed"]
 [connection signal="new_intake" from="NewIntakeDialog" to="." method="_on_NewIntakeDialog_new_intake"]
 [connection signal="item_selected" from="NewIntakeDialog/MarginContainer/VBoxContainer/Form/IntakeUnit" to="NewIntakeDialog" method="_on_IntakeUnit_item_selected"]
 [connection signal="pressed" from="NewIntakeDialog/MarginContainer/VBoxContainer/Form/Create" to="NewIntakeDialog" method="_on_Create_pressed"]
