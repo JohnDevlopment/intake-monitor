@@ -68,7 +68,7 @@ func _calculate_sum() -> void:
 		var item = items[id]
 		sum += item['amount']
 	if OS.has_feature('debug'):
-		print("calculate sum for %s is %d" % [intake_name, sum])
+		print("calculated sum for %s is %d" % [intake_name, sum])
 
 func _update_amount() -> void:
 	if _should_recalculate:
@@ -99,6 +99,7 @@ func _on_Entries_button_pressed(item: TreeItem, column: int, _id: int) -> void:
 		call_deferred('_update_amount')
 		delay.start()
 		emit_signal('request_save')
+		_should_recalculate = true
 
 func _on_ConfirmationDialog_confirmed() -> void:
 	get_parent().remove_child(self)
