@@ -52,7 +52,7 @@ scene/scene_naming=1
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/node_mapper/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/node_mapper/plugin.cfg" )
 
 [gdnative]
 
