@@ -73,7 +73,6 @@ __meta__ = {
 
 [node name="DimScreen" type="Sprite" parent="ReferenceRect"]
 unique_name_in_owner = true
-visible = false
 texture = ExtResource( 3 )
 centered = false
 
