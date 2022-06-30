@@ -7,8 +7,9 @@ onready var intake_amount: LineEdit = $MarginContainer/VBoxContainer/HBoxContain
 onready var intake_unit: OptionButton = $MarginContainer/VBoxContainer/HBoxContainer/IntakeUnit
 onready var error_label: Label = $MarginContainer/VBoxContainer/ErrorLabel
 
-func _ready() -> void:
-	pass
+func popup_custom(size: Vector2 = Vector2()) -> void:
+	popup_centered(size)
+	intake_name.grab_focus()
 
 func set_error(msg: String, time: float = -1) -> void:
 	error_label.text = msg

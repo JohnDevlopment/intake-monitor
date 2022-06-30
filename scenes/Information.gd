@@ -2,7 +2,7 @@ tool
 extends Control
 
 enum Column {FOOD_SOURCE, ITEM, SERVING_SIZE, AMOUNT}
-enum ButtonID {EDIT, DELETE}
+enum ButtonID {EDIT, DELETE, ADD}
 
 onready var database: Tree = $VBoxContainer/Database
 onready var add_food_source: VBoxContainer = $VBoxContainer/AddFoodSource
@@ -27,15 +27,17 @@ func _ready() -> void:
 	_tree_root = database.create_item()
 	
 	if not Engine.editor_hint:
-		_add_food_source('Pepsi', '1 bottle (20 oz)')
-		_add_intake('Pepsi-1 bottle (20 oz)', 'Sugar', 69, 'g')
-		_add_intake('Pepsi-1 bottle (20 oz)', 'Sodium', 55, 'mg')
+		_add_food_source('Pepsi', '12 oz')
+		_add_intake('Pepsi-12 oz', 'sugar', 41, 'g')
 		set_meta('is_information', true)
 		
 		# This reference rect is used to block mouse inputs while it's visible
 		reference_rect.set_as_toplevel(true)
 		reference_rect.set_anchors_and_margins_preset(Control.PRESET_WIDE)
 		reference_rect.margin_bottom = -133
+		
+		$ExcScreen.set_as_toplevel(true)
+		$ExcScreen.set_anchors_and_margins_preset(Control.PRESET_WIDE)
 
 func serialize():
 	var food_sources := []
@@ -43,7 +45,8 @@ func serialize():
 		var item : TreeItem = _food_sources[k]
 		var item_Contents := {
 			food_source = item.get_text(Column.FOOD_SOURCE),
-			serving_size = item.get_text(Column.SERVING_SIZE)
+			serving_size = item.get_text(Column.SERVING_SIZE),
+			intakes = _get_intakes(item)
 		}
 		food_sources.append(item_Contents)
 	
@@ -62,6 +65,8 @@ func _add_food_source(src: String, ssize: String) -> void:
 	# Food source
 	item.set_text(Column.FOOD_SOURCE, src)
 	item.set_text_align(Column.FOOD_SOURCE, TreeItem.ALIGN_CENTER)
+	item.add_button(Column.FOOD_SOURCE, Globals.ADD_BUTTON_TEXTURE,
+					ButtonID.ADD, false, "Add intake for " + src)
 	_add_edit_button(item, Column.FOOD_SOURCE, 'food source')
 	
 	# Serving size
@@ -86,6 +91,26 @@ func _add_intake(foodsrc: String, intake: String, amount: int, unit: String) -> 
 	_add_delete_button(child, Column.AMOUNT)
 	
 	Globals.request_save()
+
+func _get_intakes(item: TreeItem):
+	var first_child = item.get_children()
+	if not first_child: return []
+	
+	var next_child : TreeItem = first_child
+	var res := []
+	while is_instance_valid(next_child):
+		res.append({
+			item = (next_child as TreeItem).get_text(Column.ITEM),
+			amount = (next_child as TreeItem).get_text(Column.AMOUNT)
+		})
+		next_child = next_child.get_next_visible()
+	
+	return res
+
+func _get_item_key(item: TreeItem) -> String:
+	var fsrc : String = item.get_text(Column.FOOD_SOURCE)
+	var fsiz : String = item.get_text(Column.SERVING_SIZE)
+	return "%s-%s" % [fsrc, fsiz]
 
 func _remove_food_source(item: TreeItem) -> void:
 	var dcopy := {}
@@ -122,13 +147,14 @@ func _on_AddFoodSource_visibility_changed() -> void:
 func _on_AddIntakeDialog_add_intake(inktname: String, inktamt: int,
 inktunit: String) -> void:
 	print("Add %s: %d %s" % [inktname, inktamt, inktunit])
+	assert(has_meta('item_key'), "missing key: 'item_key'")
+	_add_intake(get_meta('item_key'), inktname, inktamt, inktunit)
 
 func _on_Database_button_pressed(item: TreeItem, column: int, id: int) -> void:
 	var root = database.get_root()
 	assert(root)
 	
-	# Id of 0 is the edit button
-	if id == 0:
+	if id == ButtonID.EDIT:
 		# Position and size the line edit to be over the tree item
 		var le : LineEdit = $'%EditItem'
 		var item_rect := database.get_item_area_rect(item, column)
@@ -144,7 +170,17 @@ func _on_Database_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		le.show_modal()
 		le.grab_focus()
 		
+		le.connect('hide', self, '_on_cancelled_editing_treeitem',
+					[], CONNECT_ONESHOT)
+		
 		$ExcScreen.show()
+		return
+	elif id == ButtonID.ADD:
+		set_meta('item_key', _get_item_key(item))
+		$AddIntakeDialog.popup_custom()
+		$ExcScreen.show()
+		yield($AddIntakeDialog, 'hide')
+		$ExcScreen.hide()
 		return
 	
 	# Remove item from tree
@@ -178,3 +214,6 @@ func _on_edited_tree_item(new_text: String) -> void:
 	_edited_column = -1
 	
 	Globals.request_save()
+
+func _on_cancelled_editing_treeitem() -> void:
+	$ExcScreen.hide()
