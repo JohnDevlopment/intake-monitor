@@ -18,7 +18,11 @@ func _on_Add_pressed() -> void:
 			food_source_params.append(le.text)
 	
 	var re := RegEx.new()
-	assert(re.compile('[0-9]+') == OK)
+	var err := re.compile("[1-9][0-9]*[ \\t].+")
+	if err != OK:
+		get_tree().quit(1)
+		return
+	
 	if not re.search(food_source_params[1]):
 		push_error("A number is required for the serving size")
 		return
