@@ -6,7 +6,8 @@ onready var window_dialog: WindowDialog = $WindowDialog
 
 func _ready() -> void:
 	var s := 'I {0} the button!'
-	print(s.format(['toggled']))
+	if OS.has_feature('debug'):
+		print(s.format(['toggled']))
 
 func _display_popup(msg: String) -> void:
 	accept_dialog.dialog_text = msg

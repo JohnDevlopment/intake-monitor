@@ -155,7 +155,8 @@ func _on_AddFoodSource_visibility_changed() -> void:
 
 func _on_AddIntakeDialog_add_intake(inktname: String, inktamt: int,
 inktunit: String) -> void:
-	print("Add %s: %d %s" % [inktname, inktamt, inktunit])
+	if OS.has_feature('debug'):
+		print("Add %s: %d %s" % [inktname, inktamt, inktunit])
 	assert(has_meta('item_key'), "missing key: 'item_key'")
 	_add_intake(get_meta('item_key'), inktname, inktamt, inktunit)
 

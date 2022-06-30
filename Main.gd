@@ -73,7 +73,6 @@ func save():
 			intakes.push_back(node.serialize())
 		elif node.get_meta('is_information', false):
 			information = node.serialize()
-			print(information)
 	
 	var json_data = {
 		information = information,
