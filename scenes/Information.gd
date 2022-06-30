@@ -107,7 +107,7 @@ func _get_intakes(item: TreeItem):
 	
 	var next_child : TreeItem = first_child
 	var res := []
-	while is_instance_valid(next_child):
+	while is_instance_valid(next_child) and next_child.get_parent() == item:
 		res.append({
 			item = (next_child as TreeItem).get_text(Column.ITEM),
 			amount = (next_child as TreeItem).get_text(Column.AMOUNT)
@@ -123,13 +123,17 @@ func _get_item_key(item: TreeItem) -> String:
 
 func _remove_food_source(item: TreeItem) -> void:
 	var dcopy := {}
+	var freed = null
 	
 	for key in _food_sources:
 		var value : TreeItem = _food_sources[key]
 		if value.get_instance_id() == item.get_instance_id():
-			item.free()
+			freed = item
 			continue
 		dcopy[key] = _food_sources[key]
+	
+	if freed:
+		(freed as TreeItem).free()
 	
 	_food_sources = dcopy
 	Globals.request_save()

@@ -59,6 +59,9 @@ func load_save():
 		var intake = IntakeMonitor.instance()
 		intake.deserialize(intake_data)
 		$PanelContainer/VBoxContainer/Intakes.add_child(intake)
+	
+	if OS.has_feature('debug'):
+		print('loaded file')
 
 func save():
 	var intakes := []
