@@ -14,8 +14,7 @@ func _ready() -> void:
 		var errdlg = load('res://scenes/CookiesDisabled.tscn').instance()
 		(errdlg as ConfirmationDialog).popup_centered()
 	
-	# TODO: change this function to reflect the new file structure
-	#load_save()
+	load_save()
 	call_deferred('_update_menu')
 	Globals.connect('request_save', self, 'save', [], CONNECT_DEFERRED)
 
@@ -49,12 +48,14 @@ func load_save():
 	
 	# Get result, is it not an array?
 	data = data.result
-	if not data is Array:
-		push_error("JSON data should be an array")
+	if not data is Dictionary:
+		push_error("JSON data should be a dictionary")
 		return
 	
+	$PanelContainer/VBoxContainer/Intakes/Information.deserialize(data['information'])
+	
 	# Create an intake for each element of the array
-	for intake_data in data:
+	for intake_data in data['intakes']:
 		var intake = IntakeMonitor.instance()
 		intake.deserialize(intake_data)
 		$PanelContainer/VBoxContainer/Intakes.add_child(intake)

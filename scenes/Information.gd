@@ -27,8 +27,6 @@ func _ready() -> void:
 	_tree_root = database.create_item()
 	
 	if not Engine.editor_hint:
-		_add_food_source('Pepsi', '12 oz')
-		_add_intake('Pepsi-12 oz', 'sugar', 41, 'g')
 		set_meta('is_information', true)
 		
 		# This reference rect is used to block mouse inputs while it's visible
@@ -38,6 +36,15 @@ func _ready() -> void:
 		
 		$ExcScreen.set_as_toplevel(true)
 		$ExcScreen.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+
+func deserialize(data: Array) -> void:
+	for foodsrc in data:
+		var item := _add_food_source(foodsrc.food_source, foodsrc.serving_size)
+		for intake in foodsrc.intakes:
+			var amountlst := (intake.amount as String).split(' ', false)
+			_add_intake(_get_item_key(item), intake.item,
+									int(amountlst[0]), amountlst[1])
+			pass
 
 func serialize():
 	var food_sources := []
@@ -59,7 +66,7 @@ func _add_edit_button(item: TreeItem, column: int, tooltip_name: String) -> void
 	item.add_button(column, Globals.EDIT_BUTTON_TEXTURE, ButtonID.EDIT,
 					false, 'Edit ' + tooltip_name)
 
-func _add_food_source(src: String, ssize: String) -> void:
+func _add_food_source(src: String, ssize: String) -> TreeItem:
 	var item := database.create_item(_tree_root)
 	
 	# Food source
@@ -79,6 +86,8 @@ func _add_food_source(src: String, ssize: String) -> void:
 	_food_sources["{0}-{1}".format([src, ssize])] = item
 	
 	Globals.request_save()
+	
+	return item
 
 func _add_intake(foodsrc: String, intake: String, amount: int, unit: String) -> void:
 	assert(foodsrc in _food_sources, "unknown key '%s'" % foodsrc)
