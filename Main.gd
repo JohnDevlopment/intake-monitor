@@ -1,8 +1,8 @@
 extends Control
 
 const IntakeMonitor := preload('res://scenes/IntakeMonitor.tscn')
-
 const SAVE_FILE := 'user://intake.sav'
+const VERSION := '0.1'
 
 enum FileMenu {NEW_INTAKE, CLOSE_INTAKE, QUIT = 3}
 
@@ -14,8 +14,10 @@ func _ready() -> void:
 		var errdlg = load('res://scenes/CookiesDisabled.tscn').instance()
 		(errdlg as ConfirmationDialog).popup_centered()
 	
-	load_save()
+	# TODO: change this function to reflect the new file structure
+	#load_save()
 	call_deferred('_update_menu')
+	Globals.connect('request_save', self, 'save', [], CONNECT_DEFERRED)
 
 func _exit_tree() -> void:
 	exit()
@@ -56,24 +58,32 @@ func load_save():
 		var intake = IntakeMonitor.instance()
 		intake.deserialize(intake_data)
 		$PanelContainer/VBoxContainer/Intakes.add_child(intake)
-		intake.connect('request_save', self, 'save', [], CONNECT_DEFERRED)
-		intake.connect('closing', self, '_on_intake_closing', [], CONNECT_DEFERRED)
 
 func save():
 	var intakes := []
+	var information := []
 	
-	for intake in $PanelContainer/VBoxContainer/Intakes.get_children():
-		if intake.has_meta('is_intake'):
-			intakes.push_back(intake.serialize())
+	if OS.has_feature('debug'):
+		print('saving file')
 	
-	var json_data := JSON.print(intakes, "\t")
+	# Serialize data
+	for node in $'%Intakes'.get_children():
+		if node.get_meta('is_intake', false):
+			intakes.push_back(node.serialize())
+		elif node.get_meta('is_information', false):
+			information = node.serialize()
+			print(information)
+	
+	var json_data = {
+		information = information,
+		intakes = intakes
+	}
+	
+	json_data = JSON.print(json_data, "\t")
 	var file := File.new()
 	if file.open(SAVE_FILE, File.WRITE) != OK: return
 	file.store_string(json_data)
 	file.close()
-	
-	if OS.has_feature('debug'):
-		print('saving file')
 
 func _update_menu():
 	var file_menu = get_node('%FileMenu').get_popup()
@@ -100,8 +110,6 @@ func _on_NewIntakeDialog_new_intake(resname: String, cap: String, unit: String) 
 	intake.desired_max = int(cap)
 	intake.unit = unit
 	$PanelContainer/VBoxContainer/Intakes.add_child(intake)
-	intake.connect('request_save', self, 'save', [], CONNECT_DEFERRED)
-	intake.connect('closing', self, '_on_intake_closing', [], CONNECT_DEFERRED)
 	_update_menu()
 
 func _on_intake_closing() -> void:
