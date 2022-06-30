@@ -1,6 +1,5 @@
 extends MarginContainer
 
-signal request_save()
 signal closing()
 
 const DELETE_BUTTON_TEXTURE := preload('res://assets/textures/delete_icon.png')
@@ -88,7 +87,7 @@ func _on_entry_added(_name: String, amount: String, update: bool = true) -> void
 	if update:
 		_should_recalculate = true
 	_update_amount()
-	emit_signal('request_save')
+	Globals.request_save()
 
 func _on_Entries_button_pressed(item: TreeItem, column: int, _id: int) -> void:
 	if not delay.is_stopped(): return
@@ -98,7 +97,7 @@ func _on_Entries_button_pressed(item: TreeItem, column: int, _id: int) -> void:
 		item.free()
 		call_deferred('_update_amount')
 		delay.start()
-		emit_signal('request_save')
+		Globals.request_save()
 		_should_recalculate = true
 
 func _on_ConfirmationDialog_confirmed() -> void:

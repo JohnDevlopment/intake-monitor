@@ -29,8 +29,17 @@ func _ready() -> void:
 	if not Engine.editor_hint:
 		_add_food_source('Pepsi', '1 bottle (20 oz)')
 		set_meta('is_information', true)
-	else:
-		_add_food_source('.....', '................')
+func serialize():
+	var food_sources := []
+	for k in _food_sources:
+		var item : TreeItem = _food_sources[k]
+		var item_Contents := {
+			food_source = item.get_text(Column.FOOD_SOURCE),
+			serving_size = item.get_text(Column.SERVING_SIZE)
+		}
+		food_sources.append(item_Contents)
+	
+	return food_sources
 
 func _add_food_source(src: String, ssize: String) -> void:
 	var item := database.create_item(_tree_root)
@@ -45,6 +54,7 @@ func _add_food_source(src: String, ssize: String) -> void:
 	var key = "{0}-{1}".format([src, ssize])
 	print(key)
 	_food_sources[key] = item
+	Globals.request_save()
 
 func _remove_food_source(item: TreeItem) -> void:
 	var dcopy := {}
@@ -57,6 +67,7 @@ func _remove_food_source(item: TreeItem) -> void:
 		dcopy[key] = _food_sources[key]
 	
 	_food_sources = dcopy
+	Globals.request_save()
 
 func _on_AddFoodSource_add_food_source(food_name: String,
 serving_size: String) -> void:
@@ -114,3 +125,5 @@ func _on_edited_tree_item(new_text: String) -> void:
 	
 	_edited_item = null
 	_edited_column = -1
+	
+	Globals.request_save()
