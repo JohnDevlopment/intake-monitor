@@ -49,6 +49,13 @@ func serialize():
 	
 	return food_sources
 
+func _add_delete_button(item: TreeItem, column: int) -> void:
+	item.add_button(column, Globals.DELETE_BUTTON_TEXTURE, ButtonID.DELETE)
+
+func _add_edit_button(item: TreeItem, column: int, tooltip_name: String) -> void:
+	item.add_button(column, Globals.EDIT_BUTTON_TEXTURE, ButtonID.EDIT,
+					false, 'Edit ' + tooltip_name)
+
 func _add_food_source(src: String, ssize: String) -> void:
 	var item := database.create_item(_tree_root)
 	
@@ -67,13 +74,6 @@ func _add_food_source(src: String, ssize: String) -> void:
 	_food_sources["{0}-{1}".format([src, ssize])] = item
 	
 	Globals.request_save()
-
-func _add_edit_button(item: TreeItem, column: int, tooltip_name: String) -> void:
-	item.add_button(column, Globals.EDIT_BUTTON_TEXTURE, ButtonID.EDIT,
-					false, 'Edit ' + tooltip_name)
-
-func _add_delete_button(item: TreeItem, column: int) -> void:
-	item.add_button(column, Globals.DELETE_BUTTON_TEXTURE, ButtonID.DELETE)
 
 func _add_intake(foodsrc: String, intake: String, amount: int, unit: String) -> void:
 	assert(foodsrc in _food_sources, "unknown key '%s'" % foodsrc)
@@ -104,16 +104,11 @@ func _remove_intake(item: TreeItem) -> void:
 	item.free()
 	Globals.request_save()
 
+# Signals
+
 func _on_AddFoodSource_add_food_source(food_name: String,
 serving_size: String) -> void:
 	_add_food_source(food_name, serving_size)
-
-func _on_ShowFSDlg_pressed() -> void:
-	add_food_source.new_entry()
-	var dim_screen = $'%DimScreen'
-	dim_screen.show()
-	dim_screen.global_position = Vector2()
-	reference_rect.show()
 
 func _on_AddFoodSource_visibility_changed() -> void:
 	if Engine.editor_hint: return # TODO: remove this later
@@ -123,6 +118,10 @@ func _on_AddFoodSource_visibility_changed() -> void:
 	else:
 		$'%DimScreen'.hide()
 		reference_rect.hide()
+
+func _on_AddIntakeDialog_add_intake(inktname: String, inktamt: int,
+inktunit: String) -> void:
+	print("Add %s: %d %s" % [inktname, inktamt, inktunit])
 
 func _on_Database_button_pressed(item: TreeItem, column: int, id: int) -> void:
 	var root = database.get_root()
@@ -156,6 +155,13 @@ func _on_Database_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		# Is intake
 		_remove_intake(item)
 
+func _on_ShowFSDlg_pressed() -> void:
+	add_food_source.new_entry()
+	var dim_screen = $'%DimScreen'
+	dim_screen.show()
+	dim_screen.global_position = Vector2()
+	reference_rect.show()
+
 func _on_edited_tree_item(new_text: String) -> void:
 	# Hide the lineedit and the color rect
 	var le : LineEdit = $'%EditItem'
@@ -172,7 +178,3 @@ func _on_edited_tree_item(new_text: String) -> void:
 	_edited_column = -1
 	
 	Globals.request_save()
-
-func _on_AddIntakeDialog_add_intake(inktname: String, inktamt: int,
-inktunit: String) -> void:
-	print("Add %s: %d %s" % [inktname, inktamt, inktunit])
