@@ -3,10 +3,9 @@ extends Control
 
 enum Column {FOOD_SOURCE, ITEM, SERVING_SIZE, AMOUNT}
 
-#export var editor := false
-
 onready var database: Tree = $VBoxContainer/Database
 onready var add_food_source: VBoxContainer = $VBoxContainer/AddFoodSource
+onready var reference_rect: ReferenceRect = $ReferenceRect
 
 var _tree_root : TreeItem
 var _food_sources := {}
@@ -29,6 +28,12 @@ func _ready() -> void:
 	if not Engine.editor_hint:
 		_add_food_source('Pepsi', '1 bottle (20 oz)')
 		set_meta('is_information', true)
+		
+		# This reference rect is used to block mouse inputs while it's visible
+		reference_rect.set_as_toplevel(true)
+		reference_rect.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+		reference_rect.margin_bottom = -133
+
 func serialize():
 	var food_sources := []
 	for k in _food_sources:
@@ -75,14 +80,19 @@ serving_size: String) -> void:
 
 func _on_ShowFSDlg_pressed() -> void:
 	add_food_source.new_entry()
-	$'%DimScreen'.show()
+	var dim_screen = $'%DimScreen'
+	dim_screen.show()
+	dim_screen.global_position = Vector2()
+	reference_rect.show()
 
 func _on_AddFoodSource_visibility_changed() -> void:
 	if Engine.editor_hint: return # TODO: remove this later
 	if $VBoxContainer/AddFoodSource.visible:
 		$'%DimScreen'.show()
+		reference_rect.show()
 	else:
 		$'%DimScreen'.hide()
+		reference_rect.hide()
 
 func _on_Database_button_pressed(item: TreeItem, column: int, _id: int) -> void:
 	match column:

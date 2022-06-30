@@ -32,7 +32,7 @@ func _on_Cancel_pressed() -> void:
 
 func _activate(mode: int, data = null) -> void:
 	show()
-	grab_focus()
+	$'%FoodSource'.grab_focus()
 	
 	var prefix = 'Add' if mode == 0 else 'Edit'
 	$'%ActionLabel'.text = prefix + ' Food Source'
