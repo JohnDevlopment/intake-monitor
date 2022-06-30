@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/Information.gd" type="Script" id=1]
 [ext_resource path="res://scenes/AddFoodSource.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/textures/mainscreen-mask.png" type="Texture" id=3]
+[ext_resource path="res://scenes/AddIntakeDialog.tscn" type="PackedScene" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends LineEdit
@@ -76,8 +77,11 @@ unique_name_in_owner = true
 texture = ExtResource( 3 )
 centered = false
 
+[node name="AddIntakeDialog" parent="." instance=ExtResource( 4 )]
+
 [connection signal="button_pressed" from="VBoxContainer/Database" to="." method="_on_Database_button_pressed"]
 [connection signal="text_entered" from="VBoxContainer/Database/EditItem" to="." method="_on_edited_tree_item"]
 [connection signal="pressed" from="VBoxContainer/ShowFSDlg" to="." method="_on_ShowFSDlg_pressed"]
 [connection signal="add_food_source" from="VBoxContainer/AddFoodSource" to="." method="_on_AddFoodSource_add_food_source"]
 [connection signal="visibility_changed" from="VBoxContainer/AddFoodSource" to="." method="_on_AddFoodSource_visibility_changed"]
+[connection signal="add_intake" from="AddIntakeDialog" to="." method="_on_AddIntakeDialog_add_intake"]

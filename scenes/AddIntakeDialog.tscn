@@ -1,0 +1,96 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/AddIntakeDialog.gd" type="Script" id=1]
+
+[node name="AddIntakeDialog" type="WindowDialog"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -219.0
+margin_bottom = 213.0
+popup_exclusive = true
+window_title = "Add Intake"
+resizable = true
+script = ExtResource( 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -5.0
+margin_bottom = -5.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_right = 502.0
+margin_bottom = 422.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 502.0
+margin_bottom = 30.0
+alignment = 1
+
+[node name="IntakeName" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 100.0
+margin_right = 300.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="IntakeAmount" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 304.0
+margin_right = 364.0
+margin_bottom = 30.0
+max_length = 4
+
+[node name="IntakeUnit" type="OptionButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 368.0
+margin_right = 401.0
+margin_bottom = 30.0
+text = "g"
+items = [ "g", null, false, 0, null, "mg", null, false, 1, null ]
+selected = 0
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer"]
+margin_top = 34.0
+margin_right = 502.0
+margin_bottom = 368.0
+size_flags_vertical = 3
+
+[node name="ErrorLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+margin_top = 372.0
+margin_right = 502.0
+margin_bottom = 390.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+align = 1
+
+[node name="Timer" type="Timer" parent="MarginContainer/VBoxContainer/ErrorLabel"]
+wait_time = 3.0
+one_shot = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 394.0
+margin_right = 502.0
+margin_bottom = 422.0
+
+[node name="OK" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 96.0
+margin_right = 152.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 56, 0 )
+size_flags_horizontal = 6
+text = "OK"
+
+[node name="Cancel" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 349.0
+margin_right = 405.0
+margin_bottom = 28.0
+size_flags_horizontal = 6
+text = "Cancel"
+
+[connection signal="timeout" from="MarginContainer/VBoxContainer/ErrorLabel/Timer" to="." method="_on_error_timeout"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/OK" to="." method="_on_OK_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/Cancel" to="." method="_on_Cancel_pressed"]

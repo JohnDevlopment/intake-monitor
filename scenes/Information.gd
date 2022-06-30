@@ -172,3 +172,7 @@ func _on_edited_tree_item(new_text: String) -> void:
 	_edited_column = -1
 	
 	Globals.request_save()
+
+func _on_AddIntakeDialog_add_intake(inktname: String, inktamt: int,
+inktunit: String) -> void:
+	print("Add %s: %d %s" % [inktname, inktamt, inktunit])
