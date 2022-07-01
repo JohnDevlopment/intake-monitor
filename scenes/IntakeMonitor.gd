@@ -26,9 +26,11 @@ func _ready() -> void:
 	entries.set_column_title(0, "Food/Drink")
 	entries.set_column_title(1, "Amount")
 	
+	# Name of the intake being monitored
 	if not intake_name.empty():
 		name = intake_name
 	
+	# Insert each deserialize entry into the tree
 	for item in _unpacked_items:
 		_on_entry_added(item.name, str(item.amount), false)
 	
@@ -36,6 +38,20 @@ func _ready() -> void:
 	call_deferred('_update_amount')
 	
 	set_meta('is_intake', true)
+
+func _calculate_sum() -> void:
+	sum = 0
+	for id in items:
+		var item = items[id]
+		sum += item['amount']
+	if OS.has_feature('debug'):
+		print("calculated sum for %s is %d" % [intake_name, sum])
+
+func _update_amount() -> void:
+	if _should_recalculate:
+		_should_recalculate = false
+		_calculate_sum()
+	sum_label.text = "Sum %s Intake: %d / %d %s" % [name, sum, desired_max, unit]
 
 func close() -> void:
 	$ConfirmClose.popup_centered(Vector2(380, 230))
@@ -60,20 +76,6 @@ func serialize() -> Dictionary:
 		(data.items as Array).push_back(items[id])
 	
 	return data
-
-func _calculate_sum() -> void:
-	sum = 0
-	for id in items:
-		var item = items[id]
-		sum += item['amount']
-	if OS.has_feature('debug'):
-		print("calculated sum for %s is %d" % [intake_name, sum])
-
-func _update_amount() -> void:
-	if _should_recalculate:
-		_should_recalculate = false
-		_calculate_sum()
-	sum_label.text = "Sum %s Intake: %d / %d %s" % [name, sum, desired_max, unit]
 
 func _on_entry_added(_name: String, amount: String, update: bool = true) -> void:
 	var item := entries.create_item(entries)
