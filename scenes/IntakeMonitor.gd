@@ -11,7 +11,7 @@ export(String, 'g', 'mg') var unit := 'mg'
 onready var entries : Tree = get_node('%Entries')
 onready var sum_label = $AspectRatioContainer/VSplitContainer/VBoxContainer/SumLabel
 onready var delay: Timer = $Delay
-onready var edit_item: LineEdit = $'%EditItem'
+onready var edit_item: LineEdit = find_node('EditItem')
 
 var items := {}
 var sum := 0
@@ -113,43 +113,32 @@ func _on_Entries_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		Globals.request_save()
 		_should_recalculate = true
 	else:
-		# Edit entry
-		var item_rect := entries.get_item_area_rect(item, column)
-		item_rect.position += entries.rect_global_position + Vector2(8, 0)
-		edit_item.rect_position = item_rect.position
-		edit_item.rect_size = item_rect.size
-		
-		set_meta('edited_item', item)
-		set_meta('edited_column', column)
-		
+		edit_item.activate(entries, item, column)
+		set_meta('edited_item_id', item.get_instance_id())
 		$ExcScreen.show()
-		
-		# Initialize the text in the line edit and then display it
-		edit_item.text = item.get_text(column)
-		edit_item.show_modal()
-		edit_item.grab_focus()
-		
-		edit_item.connect('hide', self, '_on_cancelled_editing_treeitem',
-						[], CONNECT_ONESHOT)
-
-func _on_cancelled_editing_treeitem() -> void:
-	$ExcScreen.hide()
 
 func _on_ConfirmationDialog_confirmed() -> void:
 	get_parent().remove_child(self)
 	emit_signal('closing')
 	queue_free()
 
-func _on_edited_tree_item(new_text: String) -> void:
-	# Hide the lineedit and the color rect
-	var le : LineEdit = $'%EditItem'
-	le.release_focus()
-	le.hide()
-	le.text = ''
+func _on_EditItem_edited_tree_item(new_text: String) -> void:
 	$ExcScreen.hide()
+	var itemid : int = get_meta('edited_item_id', -1)
+	assert(itemid >= 0, "invalid instance id")
 	
-	# Modify the item's text
-	var item : TreeItem = get_meta('edited_item')
-	item.set_text(get_meta('edited_column'), new_text)
+	# Get integer from string
+	var re := RegEx.new()
+	assert(re.compile("[0-9]+") == OK)
+	
+	var rematch = re.search(new_text)
+	assert(rematch is RegExMatch, "regular expression did not match")
+	if rematch is RegExMatch:
+		var matched_string : String = rematch.get_string()
+		assert(not matched_string.empty())
+		items[itemid].amount = int(matched_string)
 	
 	Globals.request_save()
+
+func _on_EditItem_cancelled_edit() -> void:
+	$ExcScreen.hide()

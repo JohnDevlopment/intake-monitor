@@ -10,8 +10,6 @@ onready var reference_rect: ReferenceRect = $ReferenceRect
 
 var _tree_root : TreeItem
 var _food_sources := {}
-var _edited_item = null
-var _edited_column := -1
 
 func _ready() -> void:
 	database.clear()
@@ -170,23 +168,8 @@ func _on_Database_button_pressed(item: TreeItem, column: int, id: int) -> void:
 	
 	if id == ButtonID.EDIT:
 		# Position and size the line edit to be over the tree item
-		var le : LineEdit = $'%EditItem'
-		var item_rect := database.get_item_area_rect(item, column)
-		item_rect.position += database.rect_global_position + Vector2(8, 0)
-		le.rect_position = item_rect.position
-		le.rect_size = item_rect.size
-		
-		_edited_item = item
-		_edited_column = column
-		
-		# Initialize the text in the line edit and then display it
-		le.text = item.get_text(column)
-		le.show_modal()
-		le.grab_focus()
-		
-		le.connect('hide', self, '_on_cancelled_editing_treeitem',
-					[], CONNECT_ONESHOT)
-		
+		var le = $VBoxContainer/Database/EditItem
+		le.activate(database, item, column)
 		$ExcScreen.show()
 		return
 	elif id == ButtonID.ADD:
@@ -212,22 +195,9 @@ func _on_ShowFSDlg_pressed() -> void:
 	dim_screen.global_position = Vector2()
 	reference_rect.show()
 
-func _on_edited_tree_item(new_text: String) -> void:
-	# Hide the lineedit and the color rect
-	var le : LineEdit = $'%EditItem'
-	le.release_focus()
-	le.hide()
-	le.text = ''
+func _on_EditItem_edited_tree_item(_new_text: String) -> void:
 	$ExcScreen.hide()
-	
-	# Modify the item's text
-	var item : TreeItem = _edited_item
-	item.set_text(_edited_column, new_text)
-	
-	_edited_item = null
-	_edited_column = -1
-	
 	Globals.request_save()
 
-func _on_cancelled_editing_treeitem() -> void:
+func _on_EditItem_cancelled_edit() -> void:
 	$ExcScreen.hide()
