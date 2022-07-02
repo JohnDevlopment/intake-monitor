@@ -21,6 +21,12 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	exit()
 
+func clear() -> void:
+	for node in $'%Intakes'.get_children():
+		if node.get_meta('is_intake', false):
+			node.call('clear')
+	Globals.request_save()
+
 func exit() -> void:
 	if OS.has_feature('JavaScript'):
 		JavaScript.eval('window.close()')
@@ -52,6 +58,12 @@ func load_save():
 		push_error("JSON data should be a dictionary")
 		return
 	
+	var ctime : Dictionary = Time.get_date_dict_from_unix_time(data.current_date)
+	var label : Label = $'%DateLabel'
+	label.text = "Date: %02d/%02d/%d" % [ctime.month, ctime.day, ctime.year]
+	if _is_tomorrow(Time.get_datetime_dict_from_system(), ctime):
+		call_deferred('clear')
+	
 	$PanelContainer/VBoxContainer/Intakes/Information.deserialize(data['information'])
 	
 	# Create an intake for each element of the array
@@ -79,7 +91,10 @@ func save():
 	
 	var json_data = {
 		information = information,
-		intakes = intakes
+		intakes = intakes,
+		current_date = Time.get_unix_time_from_datetime_dict(
+			Time.get_datetime_dict_from_system()
+		)
 	}
 	
 	json_data = JSON.print(json_data, "\t")
@@ -87,6 +102,12 @@ func save():
 	if file.open(SAVE_FILE, File.WRITE) != OK: return
 	file.store_string(json_data)
 	file.close()
+
+func _date_hash(t: Dictionary) -> int:
+	return (t.year << 16) | (t.month << 8) | t.day
+
+func _is_tomorrow(a: Dictionary, b: Dictionary) -> bool:
+	return _date_hash(a) > _date_hash(b)
 
 func _update_menu():
 	var file_menu = get_node('%FileMenu').get_popup()

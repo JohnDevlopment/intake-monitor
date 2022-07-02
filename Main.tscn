@@ -51,6 +51,19 @@ margin_bottom = 28.0
 text = "File"
 items = [ "New Intake", null, 0, false, false, 0, 0, null, "", false, "Close Intake", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Quit", null, 0, false, false, 3, 0, null, "", false ]
 
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/VBoxContainer/Menubar"]
+margin_left = 37.0
+margin_right = 41.0
+margin_bottom = 28.0
+
+[node name="DateLabel" type="Label" parent="PanelContainer/VBoxContainer/Menubar"]
+unique_name_in_owner = true
+margin_left = 45.0
+margin_top = 5.0
+margin_right = 171.0
+margin_bottom = 23.0
+text = "Date: 00/00/0000"
+
 [node name="CloseButton" type="TextureButton" parent="PanelContainer/VBoxContainer/Menubar"]
 margin_left = 484.0
 margin_right = 500.0

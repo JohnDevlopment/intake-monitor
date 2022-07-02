@@ -56,6 +56,14 @@ func _update_amount() -> void:
 		_calculate_sum()
 	sum_label.text = "Sum %s Intake: %d / %d %s" % [name, sum, desired_max, unit]
 
+func clear() -> void:
+	if OS.has_feature('debug'):
+		print('clearing file')
+	entries.clear()
+	items = {}
+	_should_recalculate = true
+	call_deferred('_update_amount')
+
 func close() -> void:
 	$ConfirmClose.popup_centered(Vector2(380, 230))
 
@@ -108,10 +116,10 @@ func _on_Entries_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		var item_id := item.get_instance_id()
 		items.erase(item_id)
 		item.free()
-		call_deferred('_update_amount')
 		delay.start()
-		Globals.request_save()
 		_should_recalculate = true
+		call_deferred('_update_amount')
+		Globals.request_save()
 	else:
 		edit_item.activate(entries, item, column)
 		set_meta('edited_item_id', item.get_instance_id())
