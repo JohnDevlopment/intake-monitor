@@ -2,7 +2,7 @@ extends Control
 
 const IntakeMonitor := preload('res://scenes/IntakeMonitor.tscn')
 const SAVE_FILE := 'user://intake.sav'
-const VERSION := '0.1'
+const VERSION := '0.2'
 
 enum FileMenu {NEW_INTAKE, CLOSE_INTAKE, QUIT = 3}
 
@@ -17,6 +17,8 @@ func _ready() -> void:
 	load_save()
 	call_deferred('_update_menu')
 	Globals.connect('request_save', self, 'save', [], CONNECT_DEFERRED)
+	
+	print("Intake Monitor version %s" % VERSION)
 
 func _exit_tree() -> void:
 	exit()
