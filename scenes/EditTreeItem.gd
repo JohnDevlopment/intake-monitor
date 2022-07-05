@@ -4,7 +4,8 @@ signal cancelled_edit()
 signal edited_tree_item(new_text)
 
 var _edited_item
-var _edited_column := -1
+var edited_column := -1
+var _validate : FuncRef
 
 func _ready() -> void:
 	set_as_toplevel(true)
@@ -17,24 +18,32 @@ func activate(tree: Tree, item: TreeItem, column: int):
 	rect_size = item_rect.size
 	
 	text = item.get_text(column)
-	_edited_column = column
+	edited_column = column
 	_edited_item = item
 	
 	show_modal()
 	grab_focus()
 
+func set_validate_callback(node: Node, function: String) -> void:
+	_validate = funcref(node, function)
+	assert(_validate.is_valid())
+
 func _on_edited_treeitem(new_text: String) -> void:
-	assert(_edited_column >= 0)
+	assert(edited_column >= 0)
 	assert(_edited_item)
 	
 	release_focus()
 	hide()
 	
-	var item : TreeItem = _edited_item
-	_edited_item = null
+	if is_instance_valid(_validate) and _validate.is_valid():
+		if not _validate.call_func(new_text):
+			emit_signal('cancelled_edit')
+			return
 	
-	item.set_text(_edited_column, new_text)
-	_edited_column = -1
+	var item : TreeItem = _edited_item
+	item.set_text(edited_column, new_text)
+	_edited_item = null
+	edited_column = -1
 	
 	emit_signal('edited_tree_item', new_text)
 

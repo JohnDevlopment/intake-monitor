@@ -28,6 +28,7 @@ func _ready() -> void:
 	entries.set_column_title(1, "Amount")
 	
 	edit_item.set_as_toplevel(true)
+	edit_item.set_validate_callback(self, '_validate_item_text')
 	
 	# Name of the intake being monitored
 	if not intake_name.empty():
@@ -89,6 +90,25 @@ func serialize() -> Dictionary:
 	
 	return data
 
+func _validate_item_text(text: String) -> bool:
+	# For the first column, the only condition is that the string isn't empty
+	if edit_item.edited_column == 0:
+		if text.empty():
+			Globals.show_error(self, "Intake name is empty")
+			return false
+		return true
+	
+	# Get integer from string
+	var unit_list := text.split(' ', false, 2)
+	var s : String = unit_list[0]
+	
+	if not s.is_valid_integer() or unit_list.size() != 2:
+		Globals.show_error(self,
+			"Invalid intake amount '%s': must be a number and a unit separated by a space" % text)
+		return false
+	
+	return true
+
 func _on_entry_added(_name: String, amount: String, update: bool = true) -> void:
 	# Create the tree item and insert the column texts
 	var item := entries.create_item(entries)
@@ -137,15 +157,10 @@ func _on_EditItem_edited_tree_item(new_text: String) -> void:
 	assert(itemid >= 0, "invalid instance id")
 	
 	# Get integer from string
-	var re := RegEx.new()
-	assert(re.compile("[0-9]+") == OK)
-	
-	var rematch = re.search(new_text)
-	assert(rematch is RegExMatch, "regular expression did not match")
-	if rematch is RegExMatch:
-		var matched_string : String = rematch.get_string()
-		assert(not matched_string.empty())
-		items[itemid].amount = int(matched_string)
+	var unit_list := new_text.split(' ', false, 2)
+	var amount := int(unit_list[0])
+	assert(amount != 0)
+	items[itemid].amount = amount
 	
 	Globals.request_save()
 
