@@ -60,6 +60,7 @@ func clear() -> void:
 	if OS.has_feature('debug'):
 		print('clearing file')
 	entries.clear()
+	_root_item = entries.create_item()
 	items = {}
 	_should_recalculate = true
 	call_deferred('_update_amount')
