@@ -37,7 +37,6 @@ Globals="*res://Globals.gd"
 
 gdscript/warnings/unassigned_variable=false
 gdscript/warnings/unassigned_variable_op_assign=false
-gdscript/warnings/unused_variable=false
 gdscript/warnings/return_value_discarded=false
 
 [display]

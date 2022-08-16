@@ -30,7 +30,6 @@ margin_right = 462.0
 margin_bottom = 561.765
 
 [node name="Entries" type="Tree" parent="AspectRatioContainer/VSplitContainer"]
-unique_name_in_owner = true
 margin_right = 462.0
 margin_bottom = 275.0
 rect_min_size = Vector2( 0, 275 )

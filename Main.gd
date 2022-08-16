@@ -6,8 +6,11 @@ const VERSION := '0.2'
 
 enum FileMenu {NEW_INTAKE, CLOSE_INTAKE, QUIT = 3}
 
+onready var date_label: Label = $PanelContainer/VBoxContainer/Menubar/DateLabel
+onready var file_menu: MenuButton = $PanelContainer/VBoxContainer/Menubar/FileMenu
+
 func _ready() -> void:
-	var menu : PopupMenu = find_node('FileMenu').get_popup()
+	var menu : PopupMenu = file_menu.get_popup()
 	menu.connect('id_pressed', self, '_on_file_menu_id_clicked')
 	
 	if (OS.has_feature('HTML') or OS.has_feature('web')) and not OS.is_userfs_persistent():
@@ -61,8 +64,7 @@ func load_save():
 		return
 	
 	var ctime : Dictionary = Time.get_date_dict_from_unix_time(data.current_date)
-	var label : Label = $'%DateLabel'
-	label.text = "Date: %02d/%02d/%d" % [ctime.month, ctime.day, ctime.year]
+	date_label.text = "Date: %02d/%02d/%d" % [ctime.month, ctime.day, ctime.year]
 	if _is_tomorrow(Time.get_datetime_dict_from_system(), ctime):
 		call_deferred('clear')
 	
@@ -112,11 +114,11 @@ func _is_tomorrow(a: Dictionary, b: Dictionary) -> bool:
 	return _date_hash(a) > _date_hash(b)
 
 func _update_menu():
-	var file_menu = get_node('%FileMenu').get_popup()
+	var menu = file_menu.get_popup()
 	var ctab : int = $'%Intakes'.current_tab
 	
 	assert(ctab >= 0)
-	file_menu.set_item_disabled(FileMenu.CLOSE_INTAKE, ctab == 0)
+	menu.set_item_disabled(FileMenu.CLOSE_INTAKE, ctab == 0)
 
 # Signals
 

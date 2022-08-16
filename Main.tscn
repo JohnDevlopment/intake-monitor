@@ -45,7 +45,6 @@ margin_right = 500.0
 margin_bottom = 28.0
 
 [node name="FileMenu" type="MenuButton" parent="PanelContainer/VBoxContainer/Menubar"]
-unique_name_in_owner = true
 margin_right = 33.0
 margin_bottom = 28.0
 text = "File"
@@ -57,7 +56,6 @@ margin_right = 41.0
 margin_bottom = 28.0
 
 [node name="DateLabel" type="Label" parent="PanelContainer/VBoxContainer/Menubar"]
-unique_name_in_owner = true
 margin_left = 45.0
 margin_top = 5.0
 margin_right = 171.0

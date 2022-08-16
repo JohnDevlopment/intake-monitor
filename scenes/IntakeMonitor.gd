@@ -8,10 +8,10 @@ export var intake_name := ''
 export var desired_max := 1000
 export(String, 'g', 'mg') var unit := 'mg'
 
-onready var entries : Tree = get_node('%Entries')
+onready var entries: Tree = $AspectRatioContainer/VSplitContainer/Entries
 onready var sum_label = $AspectRatioContainer/VSplitContainer/VBoxContainer/SumLabel
 onready var delay: Timer = $Delay
-onready var edit_item: LineEdit = find_node('EditItem')
+onready var edit_item: LineEdit = $AspectRatioContainer/VSplitContainer/Entries/EditItem
 
 var items := {}
 var sum := 0
