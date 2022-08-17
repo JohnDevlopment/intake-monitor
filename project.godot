@@ -48,7 +48,6 @@ mix_rate=22050
 
 [autoload]
 
-NodeMapper="*res://addons/node_mapper/NodeMapper.gd"
 Globals="*res://Globals.gd"
 
 [debug]
@@ -72,7 +71,7 @@ scene/scene_naming=1
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/node_mapper/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/gut/plugin.cfg" )
 
 [gdnative]
 
