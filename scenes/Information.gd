@@ -5,8 +5,8 @@ enum Column {FOOD_SOURCE, ITEM, SERVING_SIZE, AMOUNT}
 enum ButtonID {EDIT, DELETE, ADD}
 
 onready var database: Tree = $VBoxContainer/Database
-onready var add_food_source: VBoxContainer = $VBoxContainer/AddFoodSource
-onready var reference_rect: ReferenceRect = $ReferenceRect
+onready var exc_screen: ColorRect = $'%ExcScreen'
+onready var add_fs_dlg: WindowDialog = $AddFSDlg
 
 var _tree_root : TreeItem
 var _food_sources := {}
@@ -27,13 +27,11 @@ func _ready() -> void:
 	if not Engine.editor_hint:
 		set_meta('is_information', true)
 		
-		# This reference rect is used to block mouse inputs while it's visible
-		reference_rect.set_as_toplevel(true)
-		reference_rect.set_anchors_and_margins_preset(Control.PRESET_WIDE)
-		reference_rect.margin_bottom = -133
+		exc_screen.set_as_toplevel(true)
+		exc_screen.set_anchors_and_margins_preset(Control.PRESET_WIDE)
 		
-		$ExcScreen.set_as_toplevel(true)
-		$ExcScreen.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+		$AddIntakeDialog.connect('popup_hide', exc_screen, 'hide')
+		add_fs_dlg.connect('popup_hide', exc_screen, 'hide')
 
 func deserialize(data: Array) -> void:
 	for foodsrc in data:
@@ -79,6 +77,7 @@ func _add_food_source(src: String, ssize: String) -> TreeItem:
 	item.set_text_align(Column.SERVING_SIZE, TreeItem.ALIGN_CENTER)
 	_add_edit_button(item, Column.SERVING_SIZE, 'serving size')
 	
+	# Amount
 	_add_delete_button(item, Column.AMOUNT)
 	item.set_meta('is_toplevel', true)
 	_food_sources["{0}-{1}".format([src, ssize])] = item
@@ -146,15 +145,6 @@ func _on_AddFoodSource_add_food_source(food_name: String,
 serving_size: String) -> void:
 	_add_food_source(food_name, serving_size)
 
-func _on_AddFoodSource_visibility_changed() -> void:
-	if Engine.editor_hint: return # TODO: remove this later
-	if $VBoxContainer/AddFoodSource.visible:
-		$'%DimScreen'.show()
-		reference_rect.show()
-	else:
-		$'%DimScreen'.hide()
-		reference_rect.hide()
-
 func _on_AddIntakeDialog_add_intake(inktname: String, inktamt: int,
 inktunit: String) -> void:
 	if OS.has_feature('debug'):
@@ -170,14 +160,12 @@ func _on_Database_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		# Position and size the line edit to be over the tree item
 		var le = $VBoxContainer/Database/EditItem
 		le.activate(database, item, column)
-		$ExcScreen.show()
+		exc_screen.show()
 		return
 	elif id == ButtonID.ADD:
 		set_meta('item_key', _get_item_key(item))
 		$AddIntakeDialog.popup_custom()
-		$ExcScreen.show()
-		yield($AddIntakeDialog, 'hide')
-		$ExcScreen.hide()
+		exc_screen.show()
 		return
 	
 	# Remove item from tree
@@ -189,15 +177,12 @@ func _on_Database_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		_remove_intake(item)
 
 func _on_ShowFSDlg_pressed() -> void:
-	add_food_source.new_entry()
-	var dim_screen = $'%DimScreen'
-	dim_screen.show()
-	dim_screen.global_position = Vector2()
-	reference_rect.show()
+	exc_screen.show()
+	add_fs_dlg.popup_centered()
 
 func _on_EditItem_edited_tree_item(_new_text: String) -> void:
-	$ExcScreen.hide()
+	exc_screen.hide()
 	Globals.request_save()
 
 func _on_EditItem_cancelled_edit() -> void:
-	$ExcScreen.hide()
+	exc_screen.hide()

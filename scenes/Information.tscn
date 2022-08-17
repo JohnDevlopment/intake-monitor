@@ -2,9 +2,18 @@
 
 [ext_resource path="res://scenes/Information.gd" type="Script" id=1]
 [ext_resource path="res://scenes/AddFoodSource.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/textures/mainscreen-mask.png" type="Texture" id=3]
 [ext_resource path="res://scenes/AddIntakeDialog.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/EditTreeItem.tscn" type="PackedScene" id=5]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends WindowDialog
+
+func _ready() -> void:
+	$AddFoodSource.connect('deactivate', self, '_on_cancel_dialog')
+
+func _on_cancel_dialog() -> void:
+	hide()
+"
 
 [node name="Information" type="Control"]
 anchor_right = 1.0
@@ -38,40 +47,30 @@ margin_right = 512.0
 margin_bottom = 600.0
 text = "Add Food Source"
 
-[node name="AddFoodSource" parent="VBoxContainer" instance=ExtResource( 2 )]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 478.0
-margin_right = 512.0
-margin_bottom = 600.0
-
 [node name="ExcScreen" type="ColorRect" parent="."]
+unique_name_in_owner = true
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.266667 )
 
-[node name="ReferenceRect" type="ReferenceRect" parent="."]
-visible = false
+[node name="AddIntakeDialog" parent="." instance=ExtResource( 4 )]
+
+[node name="AddFSDlg" type="WindowDialog" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-border_width = 5.0
-__meta__ = {
-"_edit_lock_": true
-}
+margin_top = 140.0
+margin_bottom = -163.0
+popup_exclusive = true
+window_title = "Add Food Source"
+resizable = true
+script = SubResource( 1 )
 
-[node name="DimScreen" type="Sprite" parent="ReferenceRect"]
-unique_name_in_owner = true
-texture = ExtResource( 3 )
-centered = false
-
-[node name="AddIntakeDialog" parent="." instance=ExtResource( 4 )]
+[node name="AddFoodSource" parent="AddFSDlg" instance=ExtResource( 2 )]
 
 [connection signal="button_pressed" from="VBoxContainer/Database" to="." method="_on_Database_button_pressed"]
 [connection signal="cancelled_edit" from="VBoxContainer/Database/EditItem" to="." method="_on_EditItem_cancelled_edit"]
 [connection signal="edited_tree_item" from="VBoxContainer/Database/EditItem" to="." method="_on_EditItem_edited_tree_item"]
 [connection signal="pressed" from="VBoxContainer/ShowFSDlg" to="." method="_on_ShowFSDlg_pressed"]
-[connection signal="add_food_source" from="VBoxContainer/AddFoodSource" to="." method="_on_AddFoodSource_add_food_source"]
-[connection signal="visibility_changed" from="VBoxContainer/AddFoodSource" to="." method="_on_AddFoodSource_visibility_changed"]
 [connection signal="add_intake" from="AddIntakeDialog" to="." method="_on_AddIntakeDialog_add_intake"]
+[connection signal="add_food_source" from="AddFSDlg/AddFoodSource" to="." method="_on_AddFoodSource_add_food_source"]
