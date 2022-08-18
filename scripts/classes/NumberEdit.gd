@@ -29,6 +29,7 @@ func _ready() -> void:
 	
 	_actual_text = str(default_value)
 	_prev_text = _actual_text
+	call_deferred('_update_display')
 	
 	connect('text_entered', self, '_on_text_entered')
 	connect('focus_exited', self, '_on_focus_out')
@@ -50,6 +51,8 @@ func _change_or_revert_text(s: String) -> void:
 	
 	set_value(result)
 	call_deferred('_update_display')
+	
+	_lock = false
 	
 	emit_signal('edit_confirmed', _actual_text)
 
