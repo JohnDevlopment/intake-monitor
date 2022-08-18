@@ -6,6 +6,3 @@
 margin_right = 60.0
 margin_bottom = 30.0
 script = ExtResource( 1 )
-
-[connection signal="hide" from="." to="." method="_on_EditTreeItem_hide"]
-[connection signal="text_entered" from="." to="." method="_on_edited_treeitem"]
