@@ -29,6 +29,11 @@ func _ready() -> void:
 	entries.set_column_title(0, "Food/Drink")
 	entries.set_column_title(1, "Amount")
 	
+	if true:
+		var add_entries = find_node('AddEntries')
+		assert(add_entries != null, "couldn't find \"AddEntries\"")
+		add_entries.connect('entry_added', self, '_on_entry_added')
+	
 	edit_item.set_as_toplevel(true)
 	edit_item.set_validate_callback(self, '_validate_item_text')
 	edit_item.connect('cancelled_edit', exc_screen, 'hide')

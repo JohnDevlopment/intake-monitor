@@ -97,7 +97,6 @@ resizable = true
 dialog_text = "Close this intake? All entries in this tab will be deleted."
 
 [connection signal="button_pressed" from="MarginContainer/AspectRatioContainer/VSplitContainer/Entries" to="." method="_on_Entries_button_pressed"]
-[connection signal="entry_added" from="MarginContainer/AspectRatioContainer/VSplitContainer/VBoxContainer/AddEntries" to="MarginContainer" method="_on_entry_added"]
 [connection signal="edited_tree_item" from="EditItem" to="." method="_on_EditItem_edited_tree_item"]
 [connection signal="edited_tree_item" from="EditAmount" to="." method="_on_EditAmount_edited_tree_item"]
 [connection signal="confirmed" from="ConfirmClose" to="MarginContainer" method="_on_ConfirmationDialog_confirmed"]
