@@ -31,13 +31,14 @@ func _ready() -> void:
 	
 	edit_item.set_as_toplevel(true)
 	edit_item.set_validate_callback(self, '_validate_item_text')
+	edit_item.connect('cancelled_edit', exc_screen, 'hide')
 	
 	exc_screen.set_as_toplevel(true)
 	exc_screen.set_anchors_and_margins_preset(Control.PRESET_WIDE)
 	
 	edit_amount.unit = unit
-	
-	# TODO: connect EditItem and EditAmount signals to exc_screen.hide()
+	edit_amount.connect('cancelled_edit', exc_screen, 'hide')
+	edit_amount.connect('focus_exited', exc_screen, 'hide')
 	
 	# Name of the intake being monitored
 	if not intake_name.empty():
@@ -175,12 +176,6 @@ func _on_EditItem_edited_tree_item(new_text: String) -> void:
 	
 	exc_screen.hide()
 	Globals.request_save()
-
-func _on_EditItem_cancelled_edit() -> void:
-	exc_screen.hide()
-
-func _on_EditAmount_cancelled_edit() -> void:
-	exc_screen.hide()
 
 func _on_EditAmount_edited_tree_item(new_text: String) -> void:
 	var itemid : int = get_meta('edited_item_id', -1)

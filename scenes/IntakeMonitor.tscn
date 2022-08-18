@@ -98,9 +98,6 @@ dialog_text = "Close this intake? All entries in this tab will be deleted."
 
 [connection signal="button_pressed" from="MarginContainer/AspectRatioContainer/VSplitContainer/Entries" to="." method="_on_Entries_button_pressed"]
 [connection signal="entry_added" from="MarginContainer/AspectRatioContainer/VSplitContainer/VBoxContainer/AddEntries" to="MarginContainer" method="_on_entry_added"]
-[connection signal="cancelled_edit" from="EditItem" to="." method="_on_EditItem_cancelled_edit"]
 [connection signal="edited_tree_item" from="EditItem" to="." method="_on_EditItem_edited_tree_item"]
-[connection signal="cancelled_edit" from="EditAmount" to="." method="_on_EditAmount_cancelled_edit"]
 [connection signal="edited_tree_item" from="EditAmount" to="." method="_on_EditAmount_edited_tree_item"]
-[connection signal="focus_exited" from="EditAmount" to="." method="_on_EditAmount_cancelled_edit"]
 [connection signal="confirmed" from="ConfirmClose" to="MarginContainer" method="_on_ConfirmationDialog_confirmed"]
