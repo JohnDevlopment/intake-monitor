@@ -38,9 +38,6 @@ columns = 4
 column_titles_visible = true
 hide_root = true
 
-[node name="EditItem" parent="VBoxContainer/Database" instance=ExtResource( 5 )]
-visible = false
-
 [node name="ShowFSDlg" type="Button" parent="VBoxContainer"]
 margin_top = 572.0
 margin_right = 512.0
@@ -53,6 +50,10 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.266667 )
+
+[node name="EditItem" parent="." instance=ExtResource( 5 )]
+unique_name_in_owner = true
+visible = false
 
 [node name="AddIntakeDialog" parent="." instance=ExtResource( 4 )]
 
@@ -69,8 +70,6 @@ script = SubResource( 1 )
 [node name="AddFoodSource" parent="AddFSDlg" instance=ExtResource( 2 )]
 
 [connection signal="button_pressed" from="VBoxContainer/Database" to="." method="_on_Database_button_pressed"]
-[connection signal="cancelled_edit" from="VBoxContainer/Database/EditItem" to="." method="_on_EditItem_cancelled_edit"]
-[connection signal="edited_tree_item" from="VBoxContainer/Database/EditItem" to="." method="_on_EditItem_edited_tree_item"]
 [connection signal="pressed" from="VBoxContainer/ShowFSDlg" to="." method="_on_ShowFSDlg_pressed"]
 [connection signal="add_intake" from="AddIntakeDialog" to="." method="_on_AddIntakeDialog_add_intake"]
 [connection signal="add_food_source" from="AddFSDlg/AddFoodSource" to="." method="_on_AddFoodSource_add_food_source"]

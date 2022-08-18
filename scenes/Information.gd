@@ -7,15 +7,13 @@ enum ButtonID {EDIT, DELETE, ADD}
 onready var database: Tree = $VBoxContainer/Database
 onready var exc_screen: ColorRect = $'%ExcScreen'
 onready var add_fs_dlg: WindowDialog = $AddFSDlg
+onready var edit_item: LineEdit = $'%EditItem'
 
 var _tree_root : TreeItem
 var _food_sources := {}
 
 func _ready() -> void:
 	database.clear()
-	
-	# pepsi .....  1 Cup
-	#       sugar  .....  58 g
 	
 	database.set_column_title(0, 'Food Source')
 	database.set_column_title(1, 'Item')
@@ -29,6 +27,9 @@ func _ready() -> void:
 		
 		exc_screen.set_as_toplevel(true)
 		exc_screen.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+		
+		edit_item.connect('cancelled_edit', exc_screen, 'hide')
+		edit_item.connect('edited_tree_item', self, '_on_edited_tree_item')
 		
 		$AddIntakeDialog.connect('popup_hide', exc_screen, 'hide')
 		add_fs_dlg.connect('popup_hide', exc_screen, 'hide')
@@ -158,8 +159,7 @@ func _on_Database_button_pressed(item: TreeItem, column: int, id: int) -> void:
 	
 	if id == ButtonID.EDIT:
 		# Position and size the line edit to be over the tree item
-		var le = $VBoxContainer/Database/EditItem
-		le.activate(database, item, column)
+		edit_item.activate(database, item, column)
 		exc_screen.show()
 		return
 	elif id == ButtonID.ADD:
@@ -170,19 +170,14 @@ func _on_Database_button_pressed(item: TreeItem, column: int, id: int) -> void:
 	
 	# Remove item from tree
 	if item.get_parent() == root:
-		# If parent is root, is food source
 		_remove_food_source(item)
 	else:
-		# Is intake
 		_remove_intake(item)
 
 func _on_ShowFSDlg_pressed() -> void:
 	exc_screen.show()
 	add_fs_dlg.popup_centered()
 
-func _on_EditItem_edited_tree_item(_new_text: String) -> void:
+func _on_edited_tree_item(_new_text: String) -> void:
 	exc_screen.hide()
 	Globals.request_save()
-
-func _on_EditItem_cancelled_edit() -> void:
-	exc_screen.hide()
