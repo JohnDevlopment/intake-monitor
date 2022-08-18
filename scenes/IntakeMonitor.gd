@@ -1,17 +1,19 @@
-extends MarginContainer
+extends Control
 
 signal closing()
 
 enum ButtonID {EDIT, DELETE}
+enum Column {FOOD, AMOUNT}
 
 export var intake_name := ''
 export var desired_max := 1000
 export(String, 'g', 'mg') var unit := 'mg'
 
-onready var entries: Tree = $AspectRatioContainer/VSplitContainer/Entries
-onready var sum_label = $AspectRatioContainer/VSplitContainer/VBoxContainer/SumLabel
-onready var delay: Timer = $Delay
-onready var edit_item: LineEdit = $AspectRatioContainer/VSplitContainer/Entries/EditItem
+onready var entries: Tree = $'%Entries'
+onready var delay: Timer = $MarginContainer/Delay
+onready var edit_item: LineEdit = $'%EditItem'
+onready var exc_screen: ColorRect = $'%ExcScreen'
+onready var edit_amount: NumberEdit = $'%EditAmount'
 
 var items := {}
 var sum := 0
@@ -30,13 +32,21 @@ func _ready() -> void:
 	edit_item.set_as_toplevel(true)
 	edit_item.set_validate_callback(self, '_validate_item_text')
 	
+	exc_screen.set_as_toplevel(true)
+	exc_screen.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+	
+	edit_amount.unit = unit
+	
+	# TODO: connect EditItem and EditAmount signals to exc_screen.hide()
+	
 	# Name of the intake being monitored
 	if not intake_name.empty():
 		name = intake_name
 	
 	# Insert each deserialize entry into the tree
 	for item in _unpacked_items:
-		_on_entry_added(item.name, str(item.amount), false)
+		var amount := str(item.amount)
+		_on_entry_added(item.name, amount, false)
 	
 	_should_recalculate = true
 	call_deferred('_update_amount')
@@ -55,6 +65,7 @@ func _update_amount() -> void:
 	if _should_recalculate:
 		_should_recalculate = false
 		_calculate_sum()
+	var sum_label = $MarginContainer/AspectRatioContainer/VSplitContainer/VBoxContainer/SumLabel
 	sum_label.text = "Sum %s Intake: %d / %d %s" % [name, sum, desired_max, unit]
 
 func clear() -> void:
@@ -142,27 +153,39 @@ func _on_Entries_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		call_deferred('_update_amount')
 		Globals.request_save()
 	else:
-		edit_item.activate(entries, item, column)
+		exc_screen.show()
+		
+		if column == Column.FOOD:
+			edit_item.activate(entries, item, column)
+		else:
+			edit_amount.activate(entries, item, column)
+		
 		set_meta('edited_item_id', item.get_instance_id())
-		$ExcScreen.show()
 
 func _on_ConfirmationDialog_confirmed() -> void:
 	get_parent().remove_child(self)
 	emit_signal('closing')
 	queue_free()
 
+# Called when "EditItem" text is accepted
 func _on_EditItem_edited_tree_item(new_text: String) -> void:
-	$ExcScreen.hide()
 	var itemid : int = get_meta('edited_item_id', -1)
 	assert(itemid >= 0, "invalid instance id")
+	items[itemid].name = new_text
 	
-	# Get integer from string
-	var unit_list := new_text.split(' ', false, 2)
-	var amount := int(unit_list[0])
-	assert(amount != 0)
-	items[itemid].amount = amount
-	
+	exc_screen.hide()
 	Globals.request_save()
 
 func _on_EditItem_cancelled_edit() -> void:
-	$ExcScreen.hide()
+	exc_screen.hide()
+
+func _on_EditAmount_cancelled_edit() -> void:
+	exc_screen.hide()
+
+func _on_EditAmount_edited_tree_item(new_text: String) -> void:
+	var itemid : int = get_meta('edited_item_id', -1)
+	assert(itemid >= 0, "invalid instance id")
+	items[itemid].amount = int(new_text)
+	
+	exc_screen.hide()
+	Globals.request_save()

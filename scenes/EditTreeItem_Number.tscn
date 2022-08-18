@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/EditTreeItem_Number.gd" type="Script" id=1]
+
+[node name="EditTreeItem_Number" type="LineEdit"]
+margin_right = 188.0
+margin_bottom = 31.0
+theme_type_variation = "NumberEdit"
+text = "0"
+script = ExtResource( 1 )
