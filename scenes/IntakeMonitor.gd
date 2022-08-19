@@ -168,11 +168,6 @@ func _on_Entries_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		
 		set_meta('edited_item_id', item.get_instance_id())
 
-func _on_ConfirmationDialog_confirmed() -> void:
-	get_parent().remove_child(self)
-	emit_signal('closing')
-	queue_free()
-
 # Called when "EditItem" text is accepted
 func _on_EditItem_edited_tree_item(new_text: String) -> void:
 	var itemid : int = get_meta('edited_item_id', -1)
@@ -189,3 +184,8 @@ func _on_EditAmount_edited_tree_item(new_text: String) -> void:
 	
 	exc_screen.hide()
 	Globals.request_save()
+
+func _on_ConfirmClose_confirmed() -> void:
+	get_parent().remove_child(self)
+	emit_signal('closing')
+	queue_free()
