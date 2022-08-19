@@ -2,7 +2,7 @@ extends Control
 
 const IntakeMonitor := preload('res://scenes/IntakeMonitor.tscn')
 const SAVE_FILE := 'user://intake.sav'
-const VERSION := '0.2'
+const VERSION := '0.3'
 
 enum FileMenu {NEW_INTAKE, CLOSE_INTAKE, QUIT = 3}
 
