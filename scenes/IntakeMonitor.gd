@@ -168,7 +168,6 @@ func _on_Entries_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		
 		set_meta('edited_item_id', item.get_instance_id())
 
-# Called when "EditItem" text is accepted
 func _on_EditItem_edited_tree_item(new_text: String) -> void:
 	var itemid : int = get_meta('edited_item_id', -1)
 	assert(itemid >= 0, "invalid instance id")
@@ -177,12 +176,15 @@ func _on_EditItem_edited_tree_item(new_text: String) -> void:
 	exc_screen.hide()
 	Globals.request_save()
 
+# Called when "EditAmount" text is accepted
 func _on_EditAmount_edited_tree_item(new_text: String) -> void:
 	var itemid : int = get_meta('edited_item_id', -1)
 	assert(itemid >= 0, "invalid instance id")
 	items[itemid].amount = int(new_text)
 	
 	exc_screen.hide()
+	_should_recalculate = true
+	call_deferred('_update_amount')
 	Globals.request_save()
 
 func _on_ConfirmClose_confirmed() -> void:
