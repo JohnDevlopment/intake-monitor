@@ -52,7 +52,7 @@ func _change_or_revert_text(s: String) -> void:
 	set_value(result)
 	call_deferred('_update_display')
 	
-	_lock = false
+	set_deferred('_lock', false)
 	
 	emit_signal('edit_confirmed', _actual_text)
 
