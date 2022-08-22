@@ -9,7 +9,7 @@ export var default_value := 0 setget set_default_value
 export var cancel_on_focusout := false
 export var suffix := '' setget set_suffix
 
-var _prev_text : String
+var _prev_text := ''
 var _expr_split_regex : RegEx
 var _expr : Expression
 var _lock := false
