@@ -4,7 +4,7 @@ echo "# Changelog"
 echo
 
 declare -r USER=JohnDevlopment
-declare -r PROJECT=factory-level
+declare -r PROJECT=intake-monitor
 
 git log ${1:?provide revision range} \
     --pretty=format:"* [view commit](https://github.com/$USER/$PROJECT/commit/%H)&bull; %s " \
