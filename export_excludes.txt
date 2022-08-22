@@ -1,0 +1,1 @@
+tests/*, temp/*, addons/godot-git-plugin/*, addons/gut/*, addons/Todo_Manager/*
