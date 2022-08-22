@@ -88,6 +88,7 @@ func _add_food_source(src: String, ssize: String) -> TreeItem:
 	return item
 
 func _add_intake(foodsrc: String, intake: String, amount: int, unit: String) -> void:
+	# FIXME: If I change the serving size and then add an item to it, this fires
 	assert(foodsrc in _food_sources, "unknown key '%s'" % foodsrc)
 	var parent : TreeItem = _food_sources[foodsrc]
 	var child := database.create_item(parent)
