@@ -8,3 +8,8 @@ export.cfg
 data_*/
 
 bin/
+temp/
+releases/
+
+# Backup files
+*~
