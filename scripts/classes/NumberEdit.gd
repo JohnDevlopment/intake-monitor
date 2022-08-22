@@ -63,6 +63,9 @@ func _change_or_revert_text(s: String) -> void:
 	
 	emit_signal('edit_confirmed', _actual_text)
 
+func clear() -> void:
+	set_value(default_value)
+
 func get_value():
 	return int(_actual_text)
 
