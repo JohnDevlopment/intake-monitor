@@ -2,6 +2,8 @@ tool
 extends LineEdit
 class_name NumberEdit
 
+const ERROR_PREFIX := 'NumberEdit: '
+
 signal cancelled_edit()
 signal edit_confirmed(new_text)
 
@@ -23,9 +25,10 @@ func _ready() -> void:
 	# Regular expression for entry contents
 	var code := 0
 	_expr_split_regex = RegEx.new()
-	code = _expr_split_regex.compile("[0-9]+|[*/+-]")
+	code = _expr_split_regex.compile("\\d+(\\.\\d+)?|[*/+-]")
 	if not Engine.editor_hint:
 		assert(code == OK, "failed to compile")
+		pass
 	
 	_actual_text = str(default_value)
 	_prev_text = _actual_text
@@ -46,6 +49,10 @@ func _change_or_revert_text(s: String) -> void:
 	
 	var result = _expr.execute()
 	if _expr.has_execute_failed():
+		push_error(
+			ERROR_PREFIX + \
+			"Failed to execute expression: %s" % _expr.get_meta('expression')
+		)
 		_cancel()
 		return
 	
@@ -69,13 +76,18 @@ func set_suffix(s: String) -> void:
 	call_deferred('_update_display')
 
 func set_value(v) -> void:
-	if v is String:
-		v = int(v)
-		_actual_text = str(v)
-		_prev_text = text
-	elif v is int:
-		_actual_text = str(v)
-		_prev_text = text
+	assert(typeof(v) in [TYPE_STRING, TYPE_INT, TYPE_REAL], "invalid type")
+	match typeof(v):
+		TYPE_INT:
+			# Convert int to string
+			_actual_text = str(v)
+		TYPE_REAL:
+			# Convert float to int, then int to string
+			_actual_text = str(int(round(v)))
+		_:
+			# Is string
+			_actual_text = v
+	_prev_text = text
 	call_deferred('_update_display')
 
 func _cancel() -> void:
@@ -88,14 +100,39 @@ func _validate_text(s: String) -> bool:
 	if result.size() == 0:
 		return false
 	
+	if true:
+		var atoms := PoolStringArray()
+		
+		for e in result:
+			var atom := (e as RegExMatch).get_string()
+			var valid := {
+				f = atom.is_valid_float(),
+				i = atom.is_valid_integer(),
+				either = atom.is_valid_float() || atom.is_valid_integer()
+			}
+			if valid.either:
+				# Always a valid float
+				if valid.i:
+					# Valid integer
+					atom += ".0"
+			
+			atoms.push_back(atom)
+		
+		s = atoms.join(' ')
+	
 	# The string should not end with an operator
 	var m : RegExMatch = result.pop_back()
 	var ms : String = m.get_string()
 	for c in '*/+-':
 		if c in ms: return false
 	
+	_expr.set_meta('expression', s)
 	if _expr.parse(s) != OK:
+		push_error(ERROR_PREFIX + _expr.get_error_text())
 		return false
+	
+	if OS.has_feature('debug'):
+		print("s: ", s)
 	
 	return true
 
