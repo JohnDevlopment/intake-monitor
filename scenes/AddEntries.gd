@@ -19,6 +19,6 @@ func _on_AddButton_pressed() -> void:
 		return
 	
 	get_node('%Name').text = ''
-	get_node('%Amount').text = ''
+	get_node('%Amount').clear()
 	
 	emit_signal('entry_added', entry_name, amount)
