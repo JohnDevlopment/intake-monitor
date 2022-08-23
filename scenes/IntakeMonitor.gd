@@ -189,5 +189,6 @@ func _on_EditAmount_edited_tree_item(new_text: String) -> void:
 
 func _on_ConfirmClose_confirmed() -> void:
 	get_parent().remove_child(self)
+	Globals.request_save()
 	emit_signal('closing')
 	queue_free()
