@@ -17,7 +17,7 @@ func activate(tree: Tree, item: TreeItem, column: int):
 	rect_position = item_rect.position
 	rect_size = item_rect.size
 	
-	set_value(item.get_text(column))
+	set_value(int(item.get_text(column)))
 	edited_column = column
 	_edited_item = item
 	
