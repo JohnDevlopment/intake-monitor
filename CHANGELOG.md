@@ -7,21 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 There is nothing here yet.
 
-## [0.3.1] -- 2022-08-22
+## [1.0 alpha] -- 2022-08-24
 ### Added
-- Arithmetic expressions in a NumberEdit are done with floating point precision, then the result
-  is rounded to the nearest integer. This allows for expressions such as `1 / 5 * 50` to be done.
+- Floating point precision math in NumberEdit supported.
+    - Allows for expressions like `1 / 5 * 30` to be evaluated.
+- The file is saved after closing an intake monitor.
   
 ### Changed
 - The NumberEdit in "Add Entry" is now cleared after adding entry to the intake.
+- Changes to intake monitors[&ast;](#footnote-1)
+    - Updates total when an intake is edited.
+    - Refactored code.
 
 ### Fixed
-- Recalculate the total sum of an intake when editing an item.
 - Fixed NumberEdit validating twice when the user presses Enter.
 
 ## [0.3] -- 2022-08-18
 ### Added
-- The "Add Food Source" section has been moved into its own dialog window.
+- Information tab[&ast;](#footnote-1): Move "Add Food Source" to a dialog window.
 - Add a text bar specialized for numbers. It allows basic arithmetic operations (+-*/).
 
 ### Changed
@@ -46,8 +49,13 @@ There is nothing here yet.
 ### Added
 - Initial project files.
 
-[Unreleased]: https://github.com/JohnDevlopment/intake-monitor/compare/v0.3.1...HEAD
-[0.3.1]: https://github.com/JohnDevlopment/intake-monitor/compare/v0.3...v0.3.1
+- - -
+
+<a id="footnote-1"></a>
+<small>\* See [<i>Definitions</i>](README.md#definitions) in README.md</small>
+
+[Unreleased]: https://github.com/JohnDevlopment/intake-monitor/compare/v1.0-alpha1...HEAD
+[1.0 alpha]: https://github.com/JohnDevlopment/intake-monitor/compare/v0.3...v1.0-alpha1
 [0.3]: https://github.com/JohnDevlopment/intake-monitor/compare/v0.2...v0.3
 [0.2]: https://github.com/JohnDevlopment/intake-monitor/compare/v0.1...v0.2
 [0.1]: https://github.com/JohnDevlopment/intake-monitor/compare/7d095bb...v0.1

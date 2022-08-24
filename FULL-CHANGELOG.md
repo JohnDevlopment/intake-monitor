@@ -1,5 +1,6 @@
 # Changelog
 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/7d095bb9a04c09f7628f7b888e2ce627aa53f1a3)&bull; Initial commit
 * [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/18891aed63718e37a6ee3a586fb96609b240994d)&bull; Create README.md 
 * [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/4537059d8182b2e39eade059338c632f3ca0f74c)&bull; Add project files 
 * [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/c3f329f55aea8b9d396e981353c44125f34b27a5)&bull; Create VERSION 
@@ -60,3 +61,25 @@
 * [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/9d6e3889296d42de4a90ce2d14b31b3204661c6a)&bull; Change TODO manager settings 
 * [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/0f52d081f24b9a6fae79880e6a74b7c032e43943)&bull; Fix close-intake dialog not connecting signal 
 * [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/b4b7c1c5a075bbe1989783ebbfcaf25d3d17af0c)&bull; Bump to version 0.3 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/ccfd4703b8db024471b7beefa99aedfbee7d1935)&bull; Update sum of intake after editing an item 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/e3a1258f830d45fc97b95370e433226d19e786cb)&bull; Add git-changelog.sh 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/631747521fb0a62f320e6b654437b039d4ebba7e)&bull; Clear the 'amount' entry after a food-item is added 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/a2688ffbd2c24e74e04a01e4bafa2ac2ae056f19)&bull; Remove unused controls 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/35f440ab18ba3a44206230835c82e1c9da328c38)&bull; Add FIXME to Information.gd 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/0b729368f75942c3e7292d7ad42924033f29de3e)&bull; Defer-set _lock to prevent consecutive focus out and text entered signals 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/e208825fed64e622731d3625a711eb97be7996c9)&bull; Refactor NumberEdit 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/cf0e6d6aab0cdb0b334de31b03bb5d9d2c26f841)&bull; Enable floating point calculations in NumberEdit 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/389f1ce2eecd87165f97f1d503db56481545dcf3)&bull; Update .gitignore 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/70b9ec7b3884a242554ca2df9c333ebb3f60c9ab)&bull; Add export_presets.cfg 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/28dd2be5f4e81d7a8e2564aa70a001e164784c74)&bull; Add install.sh 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/cbd671bd649301ee8100926f54527a309d06ea70)&bull; Add export_includes.txt 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/4a9eb6f6a1f6526a32e1fed2b6b9bd2b87bc4a0a)&bull; Update .gitignore 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/618c2be6778e97d4f30568352141dbf41e1d31d7)&bull; Add generate_release.sh 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/7c122aa38f1ed0f0d7948662e06c005ab72aff07)&bull; Add clear method to NumberEdit 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/e4d634b7ced48bc5f7927093993a1eec18984ebc)&bull; Change how changelogs are made 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/1b0974d2d0630b1da0087c918567c7a2f0c2d300)&bull; Update git-changelog.sh 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/f019206e321adda0f0dfb0242a1de87484832993)&bull; Save after closing an intake 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/bc8a6e9961361807f0dde528fe6fc0091fbf7985)&bull; Remove the unit from an intake's 'amount' string 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/f7d5ecfe74d072b8280f2d6743712252797ec506)&bull; Set path of HTML5 export 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/8fe6b76be7ad268303deda94ac0fb878a26d41b4)&bull; Update README.md 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/6a96cc66096e477ee4c9f496b4bd5860279e4925)&bull; Bump to version 1.0-alpha1 
