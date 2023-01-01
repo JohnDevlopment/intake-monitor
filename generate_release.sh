@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PROJECTNAME=todolist
+PROJECTNAME=intake-monitor
 
 onquit() {
     rm $tmp
@@ -47,7 +47,7 @@ if [ $? -eq 0 ]; then
 fi
 
 # Arch
-$dlg --menu "Choose Arch:" 15 40 10 linux "Linux/X11" windows "Windows Desktop" 2> $tmp
+$dlg --menu "Choose Arch:" 15 40 10 linux "Linux/X11" windows "Windows Desktop" html5 "HTML5" 2> $tmp
 
 if [ $? -eq 1 ]; then
     # cancel
