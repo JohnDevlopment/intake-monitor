@@ -4,8 +4,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
-There is nothing here yet.
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Changelog](#changelog)
+    - [[1.0] -- 2023-01-01](#10----2023-01-01)
+        - [Changed](#changed)
+    - [[1.0 alpha] -- 2022-08-24](#10-alpha----2022-08-24)
+        - [Added](#added)
+        - [Changed](#changed-1)
+        - [Fixed](#fixed)
+    - [[0.3] -- 2022-08-18](#03----2022-08-18)
+        - [Added](#added-1)
+        - [Changed](#changed-2)
+        - [Fixed](#fixed-1)
+    - [[0.2] -- 2022-07-05](#02----2022-07-05)
+        - [Added](#added-2)
+        - [Fixed](#fixed-2)
+    - [[0.1] -- 2022-06-30](#01----2022-06-30)
+        - [Added](#added-3)
+
+<!-- markdown-toc end -->
+
+## [1.0] -- 2023-01-01
+### Changed
+- Misc updates to the project.
 
 ## [1.0 alpha] -- 2022-08-24
 ### Added
@@ -54,7 +77,7 @@ There is nothing here yet.
 <a id="footnote-1"></a>
 <small>\* See [<i>Definitions</i>](README.md#definitions) in README.md</small>
 
-[Unreleased]: https://github.com/JohnDevlopment/intake-monitor/compare/v1.0-alpha1...HEAD
+[1.0]: https://github.com/JohnDevlopment/intake-monitor/compare/v1.0-alpha1...v1.0
 [1.0 alpha]: https://github.com/JohnDevlopment/intake-monitor/compare/v0.3...v1.0-alpha1
 [0.3]: https://github.com/JohnDevlopment/intake-monitor/compare/v0.2...v0.3
 [0.2]: https://github.com/JohnDevlopment/intake-monitor/compare/v0.1...v0.2

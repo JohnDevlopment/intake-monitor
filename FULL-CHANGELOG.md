@@ -83,3 +83,6 @@
 * [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/f7d5ecfe74d072b8280f2d6743712252797ec506)&bull; Set path of HTML5 export 
 * [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/8fe6b76be7ad268303deda94ac0fb878a26d41b4)&bull; Update README.md 
 * [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/6a96cc66096e477ee4c9f496b4bd5860279e4925)&bull; Bump to version 1.0-alpha1 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/b89d4eacb8b99e2f2790ab5caeb898ba688fee80)&bull; Update changelogs to match recent version bump 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/904bd2f995e66fd336e2b02935efba8aaa7d068c)&bull; Update generate_release.sh 
+* [view commit](https://github.com/JohnDevlopment/intake-monitor/commit/bdb3d4b45483d1212ac3515cb090c412108ab736)&bull; Bump to version 1.0
