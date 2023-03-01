@@ -81,11 +81,14 @@ func _add_food_source(src: String, ssize: String) -> TreeItem:
 	# Amount
 	_add_delete_button(item, Column.AMOUNT)
 	item.set_meta('is_toplevel', true)
-	_food_sources["{0}-{1}".format([src, ssize])] = item
+	_food_sources[_generate_food_sources_key(src, ssize)] = item
 
 	Globals.request_save()
 
 	return item
+
+func _generate_food_sources_key(food_source: String, serving_size: String) -> String:
+	return "{0}-{1}".format([food_source, serving_size])
 
 func _add_intake(foodsrc: String, intake: String, amount: int, unit: String) -> void:
 	# FIXME: If I change the serving size and then add an item to it, this fires
