@@ -10,7 +10,25 @@ onready var add_fs_dlg: WindowDialog = $AddFSDlg
 onready var edit_item: LineEdit = $'%EditItem'
 
 var _tree_root : TreeItem
-var _food_sources := {}
+var _food_sources := {
+	# Format:
+	#   key: String, format: "FOOD SOURCE-SERVING SIZE"
+	#   value: TreeItem
+}
+
+class FoodSourceTreeItem:
+	enum Column {FOOD_SOURCE, ITEM, SERVING_SIZE, AMOUNT}
+	var _item: TreeItem
+
+	func _init(item: TreeItem) -> void:
+		assert(is_instance_valid(item))
+		_item = item
+
+	func get_food_source() -> String:
+		return _item.get_text(Column.FOOD_SOURCE)
+
+	func get_serving_size() -> String:
+		return _item.get_text(Column.SERVING_SIZE)
 
 func _ready() -> void:
 	database.clear()
@@ -163,6 +181,9 @@ func _on_Database_button_pressed(item: TreeItem, column: int, id: int) -> void:
 
 	if id == ButtonID.EDIT:
 		# Position and size the line edit to be over the tree item
+		var key := _get_item_key(item)
+		assert(key in _food_sources)
+		edit_item.set_meta('_dict_key', key)
 		edit_item.activate(database, item, column)
 		exc_screen.show()
 		return
@@ -182,6 +203,24 @@ func _on_ShowFSDlg_pressed() -> void:
 	exc_screen.show()
 	add_fs_dlg.popup_centered()
 
-func _on_edited_tree_item(_new_text: String) -> void:
+func _on_edited_tree_item(item: TreeItem, column: int, old_text: String, new_text: String) -> void:
+	if column in [Column.FOOD_SOURCE, Column.SERVING_SIZE]:
+		var key: String = edit_item.get_meta('_dict_key', '')
+		assert(key != '')
+	
+		if old_text != new_text:
+			var foodsrcobj := FoodSourceTreeItem.new(item)
+			var new_key = _generate_food_sources_key(
+				foodsrcobj.get_food_source(),
+				foodsrcobj.get_serving_size()
+			)
+			_food_sources.erase(key)
+			_food_sources[new_key] = item
+	
+			# TODO: write function that prints in debug mode
+			if OS.has_feature('debug'):
+				print("'%s' changed to '%s'" % [old_text, new_text])
+				print("key '%s' changed to '%s'" % [key, new_key])
+
 	exc_screen.hide()
 	Globals.request_save()
