@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Floating point precision math in NumberEdit supported.
     - Allows for expressions like `1 / 5 * 30` to be evaluated.
 - The file is saved after closing an intake monitor.
-  
+
 ### Changed
 - The NumberEdit in "Add Entry" is now cleared after adding entry to the intake.
 - Changes to intake monitors[&ast;](#footnote-1)

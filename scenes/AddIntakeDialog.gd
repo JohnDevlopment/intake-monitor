@@ -23,16 +23,16 @@ func _on_OK_pressed() -> void:
 	if inktname.empty():
 		set_error("No intake name provided")
 		return
-	
+
 	var inktamt : int
 	if not intake_amount.text.is_valid_integer():
 		set_error("Intake amount is not a valid integer")
 		return
 	inktamt = int(intake_amount.text)
-	
+
 	# Hide the dialog when idle
 	call_deferred('_on_Cancel_pressed')
-	
+
 	emit_signal('add_intake', inktname, inktamt, intake_unit.text)
 
 func _on_Cancel_pressed() -> void:

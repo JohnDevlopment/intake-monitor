@@ -27,7 +27,7 @@ func _on_Create_pressed() -> void:
 	if _name.empty():
 		error_label.set_error("Missing name field")
 		return
-	
+
 	var amount : String = str(intake_amount.value)
 	if amount.empty():
 		error_label.set_error("No amount provided")
@@ -35,7 +35,7 @@ func _on_Create_pressed() -> void:
 	elif not amount.is_valid_integer():
 		error_label.set_error("Invalid string '%s', must be an integer" % amount)
 		return
-	
+
 	emit_signal('new_intake', _name, amount, intake_unit.text)
-	
+
 	_on_Cancel_pressed()

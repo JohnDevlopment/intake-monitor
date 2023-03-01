@@ -2,7 +2,7 @@ extends 'res://addons/gut/test.gd'
 
 class TestInnerClass:
 	extends 'res://addons/gut/test.gd'
-	
+
 	func after_all() -> void:
 		pass
 

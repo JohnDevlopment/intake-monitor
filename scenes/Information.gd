@@ -14,23 +14,23 @@ var _food_sources := {}
 
 func _ready() -> void:
 	database.clear()
-	
+
 	database.set_column_title(0, 'Food Source')
 	database.set_column_title(1, 'Item')
 	database.set_column_title(2, 'Serving Size')
 	database.set_column_title(3, 'Amount')
-	
+
 	_tree_root = database.create_item()
-	
+
 	if not Engine.editor_hint:
 		set_meta('is_information', true)
-		
+
 		exc_screen.set_as_toplevel(true)
 		exc_screen.set_anchors_and_margins_preset(Control.PRESET_WIDE)
-		
+
 		edit_item.connect('cancelled_edit', exc_screen, 'hide')
 		edit_item.connect('edited_tree_item', self, '_on_edited_tree_item')
-		
+
 		$AddIntakeDialog.connect('popup_hide', exc_screen, 'hide')
 		add_fs_dlg.connect('popup_hide', exc_screen, 'hide')
 
@@ -53,7 +53,7 @@ func serialize():
 			intakes = _get_intakes(item)
 		}
 		food_sources.append(item_Contents)
-	
+
 	return food_sources
 
 func _add_delete_button(item: TreeItem, column: int) -> void:
@@ -65,26 +65,26 @@ func _add_edit_button(item: TreeItem, column: int, tooltip_name: String) -> void
 
 func _add_food_source(src: String, ssize: String) -> TreeItem:
 	var item := database.create_item(_tree_root)
-	
+
 	# Food source
 	item.set_text(Column.FOOD_SOURCE, src)
 	item.set_text_align(Column.FOOD_SOURCE, TreeItem.ALIGN_CENTER)
 	item.add_button(Column.FOOD_SOURCE, Globals.ADD_BUTTON_TEXTURE,
 					ButtonID.ADD, false, "Add intake for " + src)
 	_add_edit_button(item, Column.FOOD_SOURCE, 'food source')
-	
+
 	# Serving size
 	item.set_text(Column.SERVING_SIZE, ssize)
 	item.set_text_align(Column.SERVING_SIZE, TreeItem.ALIGN_CENTER)
 	_add_edit_button(item, Column.SERVING_SIZE, 'serving size')
-	
+
 	# Amount
 	_add_delete_button(item, Column.AMOUNT)
 	item.set_meta('is_toplevel', true)
 	_food_sources["{0}-{1}".format([src, ssize])] = item
-	
+
 	Globals.request_save()
-	
+
 	return item
 
 func _add_intake(foodsrc: String, intake: String, amount: int, unit: String) -> void:
@@ -97,13 +97,13 @@ func _add_intake(foodsrc: String, intake: String, amount: int, unit: String) -> 
 	_add_edit_button(child, Column.ITEM, 'intake item')
 	_add_edit_button(child, Column.AMOUNT, 'intake amount')
 	_add_delete_button(child, Column.AMOUNT)
-	
+
 	Globals.request_save()
 
 func _get_intakes(item: TreeItem):
 	var first_child = item.get_children()
 	if not first_child: return []
-	
+
 	var next_child : TreeItem = first_child
 	var res := []
 	while is_instance_valid(next_child) and next_child.get_parent() == item:
@@ -112,7 +112,7 @@ func _get_intakes(item: TreeItem):
 			amount = (next_child as TreeItem).get_text(Column.AMOUNT)
 		})
 		next_child = next_child.get_next_visible()
-	
+
 	return res
 
 func _get_item_key(item: TreeItem) -> String:
@@ -123,17 +123,17 @@ func _get_item_key(item: TreeItem) -> String:
 func _remove_food_source(item: TreeItem) -> void:
 	var dcopy := {}
 	var freed = null
-	
+
 	for key in _food_sources:
 		var value : TreeItem = _food_sources[key]
 		if value.get_instance_id() == item.get_instance_id():
 			freed = item
 			continue
 		dcopy[key] = _food_sources[key]
-	
+
 	if freed:
 		(freed as TreeItem).free()
-	
+
 	_food_sources = dcopy
 	Globals.request_save()
 
@@ -157,7 +157,7 @@ inktunit: String) -> void:
 func _on_Database_button_pressed(item: TreeItem, column: int, id: int) -> void:
 	var root = database.get_root()
 	assert(root)
-	
+
 	if id == ButtonID.EDIT:
 		# Position and size the line edit to be over the tree item
 		edit_item.activate(database, item, column)
@@ -168,7 +168,7 @@ func _on_Database_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		$AddIntakeDialog.popup_custom()
 		exc_screen.show()
 		return
-	
+
 	# Remove item from tree
 	if item.get_parent() == root:
 		_remove_food_source(item)

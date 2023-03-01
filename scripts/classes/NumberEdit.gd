@@ -19,9 +19,9 @@ var _actual_text := ''
 
 func _ready() -> void:
 	theme_type_variation = 'NumberEdit'
-	
+
 	_expr = Expression.new()
-	
+
 	# Regular expression for entry contents
 	var code := 0
 	_expr_split_regex = RegEx.new()
@@ -29,24 +29,24 @@ func _ready() -> void:
 	if not Engine.editor_hint:
 		assert(code == OK, "failed to compile")
 		pass
-	
+
 	_actual_text = str(default_value)
 	_prev_text = _actual_text
 	call_deferred('_update_display')
-	
+
 	connect('text_entered', self, '_on_text_entered')
 	connect('focus_exited', self, '_on_focus_out')
 	connect('focus_entered', self, '_on_focus_in')
 
 func _change_or_revert_text(s: String) -> void:
 	if _lock: return
-	
+
 	_lock = true
-	
+
 	if not _validate_text(s):
 		_cancel()
 		return
-	
+
 	var result = _expr.execute()
 	if _expr.has_execute_failed():
 		push_error(
@@ -55,12 +55,12 @@ func _change_or_revert_text(s: String) -> void:
 		)
 		_cancel()
 		return
-	
+
 	set_value(result)
 	call_deferred('_update_display')
-	
+
 	set_deferred('_lock', false)
-	
+
 	emit_signal('edit_confirmed', _actual_text)
 
 func clear() -> void:
@@ -102,10 +102,10 @@ func _validate_text(s: String) -> bool:
 	var result := _expr_split_regex.search_all(s)
 	if result.size() == 0:
 		return false
-	
+
 	if true:
 		var atoms := PoolStringArray()
-		
+
 		for e in result:
 			var atom := (e as RegExMatch).get_string()
 			var valid := {
@@ -118,25 +118,25 @@ func _validate_text(s: String) -> bool:
 				if valid.i:
 					# Valid integer
 					atom += ".0"
-			
+
 			atoms.push_back(atom)
-		
+
 		s = atoms.join(' ')
-	
+
 	# The string should not end with an operator
 	var m : RegExMatch = result.pop_back()
 	var ms : String = m.get_string()
 	for c in '*/+-':
 		if c in ms: return false
-	
+
 	_expr.set_meta('expression', s)
 	if _expr.parse(s) != OK:
 		push_error(ERROR_PREFIX + _expr.get_error_text())
 		return false
-	
+
 	if OS.has_feature('debug'):
 		print("s: ", s)
-	
+
 	return true
 
 func _update_display() -> void:

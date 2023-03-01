@@ -12,15 +12,15 @@ onready var file_menu: MenuButton = $PanelContainer/VBoxContainer/Menubar/FileMe
 func _ready() -> void:
 	var menu : PopupMenu = file_menu.get_popup()
 	menu.connect('id_pressed', self, '_on_file_menu_id_clicked')
-	
+
 	if (OS.has_feature('HTML') or OS.has_feature('web')) and not OS.is_userfs_persistent():
 		var errdlg = load('res://scenes/CookiesDisabled.tscn').instance()
 		(errdlg as ConfirmationDialog).popup_centered()
-	
+
 	load_save()
 	call_deferred('_update_menu')
 	Globals.connect('request_save', self, 'save', [], CONNECT_DEFERRED)
-	
+
 	print("Intake Monitor version %s" % VERSION)
 
 func _exit_tree() -> void:
@@ -40,59 +40,59 @@ func exit() -> void:
 
 func load_save():
 	var file := File.new()
-	
+
 	# Create a file if it does not exist
 	if not file.file_exists(SAVE_FILE):
 		save()
 		return
-	
+
 	if file.open(SAVE_FILE, File.READ) != OK:
 		push_error("Failed to open '%s'" % SAVE_FILE)
 		return
-	
+
 	# Parse JSON data
 	var data = JSON.parse(file.get_as_text())
 	file.close()
 	if data.error != OK:
 		push_error("Failed to parse JSON string: %s, at %s line %d" % [data.error_string, SAVE_FILE, data.error_line])
 		return
-	
+
 	# Get result, is it not an array?
 	data = data.result
 	if not data is Dictionary:
 		push_error("JSON data should be a dictionary")
 		return
-	
+
 	var ctime : Dictionary = Time.get_date_dict_from_unix_time(data.current_date)
 	date_label.text = "Date: %02d/%02d/%d" % [ctime.month, ctime.day, ctime.year]
 	if _is_tomorrow(Time.get_datetime_dict_from_system(), ctime):
 		call_deferred('clear')
-	
+
 	$PanelContainer/VBoxContainer/Intakes/Information.deserialize(data['information'])
-	
+
 	# Create an intake for each element of the array
 	for intake_data in data['intakes']:
 		var intake = IntakeMonitor.instance()
 		intake.deserialize(intake_data)
 		$PanelContainer/VBoxContainer/Intakes.add_child(intake)
-	
+
 	if OS.has_feature('debug'):
 		print('loaded file')
 
 func save():
 	var intakes := []
 	var information := []
-	
+
 	if OS.has_feature('debug'):
 		print('saving file')
-	
+
 	# Serialize data
 	for node in $'%Intakes'.get_children():
 		if node.get_meta('is_intake', false):
 			intakes.push_back(node.serialize())
 		elif node.get_meta('is_information', false):
 			information = node.serialize()
-	
+
 	var json_data = {
 		information = information,
 		intakes = intakes,
@@ -100,7 +100,7 @@ func save():
 			Time.get_datetime_dict_from_system()
 		)
 	}
-	
+
 	json_data = JSON.print(json_data, "\t")
 	var file := File.new()
 	if file.open(SAVE_FILE, File.WRITE) != OK: return
@@ -116,7 +116,7 @@ func _is_tomorrow(a: Dictionary, b: Dictionary) -> bool:
 func _update_menu():
 	var menu = file_menu.get_popup()
 	var ctab : int = $'%Intakes'.current_tab
-	
+
 	assert(ctab >= 0)
 	menu.set_item_disabled(FileMenu.CLOSE_INTAKE, ctab == 0)
 

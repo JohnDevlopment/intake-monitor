@@ -858,12 +858,12 @@ func assert_not_typeof(object, type, text=''):
 func _check_string(text: String, search: String, match_case: bool, reverse: bool):
 	var action : String = ' NOT ' if reverse else ' '
 	var empty_search = 'Expected text and search strings to be non-empty. You passed \'%s\' and \'%s\'.'
-	
+
 	var f := [funcref(self, '_pass'), funcref(self, '_fail')]
 	if reverse:
 		var temp = f.pop_front()
 		f.append(temp)
-	
+
 	var disp = 'Expected \'%s\' to%scontain \'%s\', match_case=%s' \
 		% [text, action, search, match_case]
 	if(text == '' or search == ''):

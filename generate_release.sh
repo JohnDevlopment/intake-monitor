@@ -84,4 +84,4 @@ mkdir -p "$srcdir/releases"
 cp bin/$arch/* $tdir/
 cd $tdir
 zip --no-dir-entries -T $zipfile *
-mv -v $zipfile "$srcdir/releases/" 
+mv -v $zipfile "$srcdir/releases/"

@@ -18,11 +18,11 @@ func activate(tree: Tree, item: TreeItem, column: int):
 	item_rect.position += tree.rect_global_position + Vector2(8, 0)
 	rect_position = item_rect.position
 	rect_size = item_rect.size
-	
+
 	text = item.get_text(column)
 	edited_column = column
 	_edited_item = item
-	
+
 	show_modal()
 	grab_focus()
 
@@ -44,17 +44,17 @@ func _cancel() -> void:
 func _on_edited_treeitem(new_text: String) -> void:
 	assert(edited_column >= 0)
 	assert(_edited_item)
-	
+
 	deactivate()
-	
+
 	if is_instance_valid(_validate) and _validate.is_valid():
 		if not _validate.call_func(new_text):
 			emit_signal('cancelled_edit')
 			return
-	
+
 	var item : TreeItem = _edited_item
 	item.set_text(edited_column, new_text)
 	_edited_item = null
 	edited_column = -1
-	
+
 	emit_signal('edited_tree_item', new_text)
